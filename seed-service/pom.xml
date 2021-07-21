@@ -5,13 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>seed-service</artifactId>
     <name>${project.artifactId}</name>
+    <version>${seed-project-cloud.version}</version>
     <description>seed微服务集合</description>
     <packaging>pom</packaging>
 
     <parent>
         <artifactId>cody</artifactId>
         <groupId>com.demo</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${seed-project-cloud.version}</version>
     </parent>
 
     <modules>

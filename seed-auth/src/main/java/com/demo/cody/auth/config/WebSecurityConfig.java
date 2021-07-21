@@ -18,7 +18,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers(
+                        "/oauth/**",
+                        "/login/**",
+                        "/logout/**")
+                .permitAll()
                 .anyRequest().authenticated();
     }
 

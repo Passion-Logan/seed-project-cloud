@@ -18,13 +18,15 @@ import java.net.NetworkInterface;
 import java.util.Enumeration;
 
 /**
- * @ProjectName: jinkai-parent
- * @Package: com.scil.jinkai.utils
- * @ClassName: IpUtil
- * @Description: 获取ip工具类
- * @author:songqiang
- * @Date:2020-01-16 09:13
- **/
+ * 获取ip工具类
+ *
+ * @author wql
+ * @desc IPUtilsPro
+ * @date 2021/7/21
+ * @lastUpdateUser wql
+ * @lastUpdateDesc
+ * @lastUpdateTime 2021/7/21
+ */
 public class IPUtilsPro {
 
     /**
@@ -139,9 +141,9 @@ public class IPUtilsPro {
         return "127.0.0.1";
     }
 
-
     public static void main(String[] args) {
         //测试ip to 地区
         System.out.println(getCityInfo("123.125.71.38"));
     }
+
 }

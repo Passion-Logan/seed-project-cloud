@@ -1,6 +1,6 @@
 spring:
   application:
-    name: seed-gateway
+    name: seed-auth
   profiles:
     active: dev
   cloud:

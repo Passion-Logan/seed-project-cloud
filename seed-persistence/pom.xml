@@ -3,7 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>seed-service-api</artifactId>
+    <artifactId>seed-persistence</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <description>seed持久层集合</description>
     <version>${seed-project-cloud.version}</version>
 
     <parent>
@@ -11,5 +14,19 @@
         <groupId>com.demo</groupId>
         <version>${seed-project-cloud.version}</version>
     </parent>
+
+    <modules>
+        <module>seed-db-mysql</module>
+        <module>seed-nosql-redis</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.demo</groupId>
+            <artifactId>seed-common</artifactId>
+        </dependency>
+    </dependencies>
+
+
 
 </project>

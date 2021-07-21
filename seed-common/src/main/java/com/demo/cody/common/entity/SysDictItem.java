@@ -2,7 +2,7 @@ package com.demo.cody.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.cody.common.aspect.annotation.Dict;
+import com.demo.cody.common.aspect.annotation.Dict;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

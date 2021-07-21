@@ -43,7 +43,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode("123456"))
                 .scopes("all")
                 .authorizedGrantTypes("password", "refresh_token");
-        log.debug("ClientDetailsServiceConfigurer is complete.");
+        log.debug("ClientDetailsServiceConfigurer 已完成。");
     }
 
     @Override
@@ -57,6 +57,12 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenConverter(jwtAccessTokenConverter());
     }
 
+    /**
+     * 允许表单登录
+     *
+     * @param security
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security

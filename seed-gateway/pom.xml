@@ -6,11 +6,12 @@
     <groupId>com.demo</groupId>
     <artifactId>seed-gateway</artifactId>
     <name>seed-gateway</name>
+    <version>${seed-project-cloud.version}</version>
 
     <parent>
         <artifactId>cody</artifactId>
         <groupId>com.demo</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${seed-project-cloud.version}</version>
     </parent>
 
     <dependencies>
