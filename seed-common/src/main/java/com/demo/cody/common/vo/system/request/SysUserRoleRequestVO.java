@@ -5,11 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
-@Builder
 public class SysUserRoleRequestVO extends SysUser {
 
     String roleIds;

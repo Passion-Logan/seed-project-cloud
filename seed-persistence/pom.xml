@@ -20,13 +20,4 @@
         <module>seed-nosql-redis</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.demo</groupId>
-            <artifactId>seed-common</artifactId>
-        </dependency>
-    </dependencies>
-
-
-
 </project>

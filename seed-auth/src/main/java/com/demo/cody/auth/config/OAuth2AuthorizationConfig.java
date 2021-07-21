@@ -1,5 +1,6 @@
 package com.demo.cody.auth.config;
 
+import com.demo.cody.auth.service.security.CustomUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserService userService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -53,8 +55,9 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .tokenStore(tokenStore())
                 // 身份认证管理器, 主要用于"password"授权模式
                 .authenticationManager(authenticationManager)
+                .userDetailsService(userService);
                 // 自定义token生成方案
-                .accessTokenConverter(jwtAccessTokenConverter());
+                //.accessTokenConverter(jwtAccessTokenConverter());
     }
 
     /**
