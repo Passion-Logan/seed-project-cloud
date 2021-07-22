@@ -36,13 +36,10 @@
         <commons.version>2.6</commons.version>
         <hutool.version>5.4.0</hutool.version>
         <admin-starter-server.version>2.2.3</admin-starter-server.version>
+        <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -184,6 +181,13 @@
                 <artifactId>jjwt</artifactId>
                 <version>0.9.1</version>
             </dependency>-->
+
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

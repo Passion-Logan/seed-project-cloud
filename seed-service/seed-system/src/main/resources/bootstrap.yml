@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: seed-system
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: http://localhost:8848
+        file-extension: yml
+        extension-configs:
+          - data-id: ${spring.application.name}.yml
+            group: DEFAULT_GROUP
+            refresh: true

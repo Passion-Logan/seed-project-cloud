@@ -39,18 +39,23 @@ import java.util.stream.Collectors;
 public class CustomUserService implements UserDetailsService {
 
     List<SysUser> list;
+    private List<User> userList;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void init() {
-        String password = passwordEncoder.encode("123");
+        String password = passwordEncoder.encode("123456");
         list = new ArrayList<>();
         list.add(SysUser.builder().userName("admin").password(password).enabled(Boolean.TRUE).id(IdUtil.objectId()).build());
         list.add(SysUser.builder().userName("test").password(password).enabled(Boolean.TRUE).id(IdUtil.objectId()).build());
-    }
 
+        userList = new ArrayList<>();
+        userList.add(new User("macro", password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin")));
+        userList.add(new User("andy", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
+        userList.add(new User("mark", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -78,6 +83,14 @@ public class CustomUserService implements UserDetailsService {
             throw new CredentialsExpiredException(MessageConstant.CREDENTIALS_EXPIRED);
         }
         return securityUser;
+
+
+        /*List<User> findUserList = userList.stream().filter(f -> f.getUsername().equals(s)).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(findUserList)) {
+            return findUserList.get(0);
+        } else {
+            throw new UsernameNotFoundException("用户名或密码错误");
+        }*/
     }
 
 }
