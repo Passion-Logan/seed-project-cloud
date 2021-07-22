@@ -21,7 +21,7 @@
 #    oauth2:
 #      resourceserver:
 #        jwt:
-#          jwk-set-uri: 'http://localhost:8102/auth/rsa/publicKey' #配置RSA的公钥访问地址
+#          jwk-set-uri: http://localhost:8102/auth/rsa/publicKey #配置RSA的公钥访问地址
 #secure:
 #  ignore:
 #    urls: #配置白名单路径
