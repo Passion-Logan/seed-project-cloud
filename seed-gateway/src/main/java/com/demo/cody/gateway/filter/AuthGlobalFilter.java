@@ -30,27 +30,27 @@ import java.text.ParseException;
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String token = exchange.getRequest().getHeaders().getFirst(AuthConstant.JWT_TOKEN_HEADER);
-        String auth = exchange.getRequest().getHeaders().getFirst(AuthConstant.AUTHORITY_CLAIM_NAME);
+        /*String token = exchange.getRequest().getHeaders().getFirst(AuthConstant.JWT_TOKEN_HEADER);
+        String auth = exchange.getRequest().getHeaders().getFirst(AuthConstant.AUTHORITY_CLAIM_NAME);*/
 
-        MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
-
-        if (StrUtil.isEmpty(token)) {
+        /*if (StrUtil.isEmpty(token)) {
             return chain.filter(exchange);
-        }
-        try {
+        }*/
+        //try {
             //从token中解析用户信息并设置到Header中去
-            String realToken = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
+            /*String realToken = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
             JWSObject jwsObject = JWSObject.parse(realToken);
             String userStr = jwsObject.getPayload().toString();
-            log.info("AuthGlobalFilter.filter() user:{}",userStr);
+            log.info("AuthGlobalFilter.filter() user:{}",userStr);*/
             ServerHttpRequest request = exchange.getRequest().mutate()
-                    .header(AuthConstant.USER_TOKEN_HEADER, userStr, AuthConstant.AUTHORITY_CLAIM_NAME, auth)
+                    .headers(headers -> {
+                        headers.add("user", "fsdfsdsssssssss");
+                    })
                     .build();
             exchange = exchange.mutate().request(request).build();
-        } catch (ParseException e) {
+        /*} catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
         return chain.filter(exchange);
     }
 

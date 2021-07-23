@@ -59,9 +59,9 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .tokenStore(tokenStore())
                 // 身份认证管理器, 主要用于"password"授权模式
                 .authenticationManager(authenticationManager)
-                .userDetailsService(userService);
+                .userDetailsService(userService)
                 // 自定义token生成方案
-                //.accessTokenConverter(jwtAccessTokenConverter());
+                .accessTokenConverter(jwtAccessTokenConverter());
     }
 
     /**
