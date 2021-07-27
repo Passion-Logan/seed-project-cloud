@@ -1,12 +1,12 @@
 package com.demo.cody.auth.config;
 
+import com.demo.cody.auth.properties.SecurityConfigProperties;
 import com.demo.cody.auth.service.security.CustomUserService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -17,9 +17,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
-
-import java.security.KeyPair;
 
 /**
  * ClassName: OAuth2AuthorizationConfig
@@ -31,23 +28,28 @@ import java.security.KeyPair;
  * @since JDK 1.8
  */
 @Slf4j
-@AllArgsConstructor
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-    private final PasswordEncoder passwordEncoder;
-    private final CustomUserService userService;
-
+    @Autowired
+    private SecurityConfigProperties properties;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CustomUserService userService;
+
+    @Value("${spring.security.oauth2.jwt.signingKey}")
+    private String signingKey;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("admin")
-                .secret(passwordEncoder.encode("123456"))
-                .scopes("all")
+                .withClient(properties.getClientId())
+                .secret(passwordEncoder.encode(properties.getClientSecret()))
+                .scopes(properties.getScope())
                 .authorizedGrantTypes("authorization_code", "password", "refresh_token");
         log.debug("ClientDetailsServiceConfigurer 已完成。");
     }
@@ -100,7 +102,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         // 设置签名
-        converter.setSigningKey("cody");
+        converter.setSigningKey(signingKey);
         return converter;
     }
 

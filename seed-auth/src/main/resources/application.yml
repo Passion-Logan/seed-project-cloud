@@ -1,2 +1,10 @@
 #server:
 #  port: 8102
+#spring:
+#  security:
+#    oauth2:
+#      jwt:
+#        signingKey: cody
+#      clientId: admin
+#      clientSecret: 123456
+#      scope: all
