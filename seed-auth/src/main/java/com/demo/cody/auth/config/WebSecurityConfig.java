@@ -25,7 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/oauth/**",
                         "/login/**",
                         "/logout/**",
-                        "/rsa/publicKey",
                         "/test/**"
                 )
                 .permitAll()
