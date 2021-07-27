@@ -100,16 +100,8 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         // 设置签名
-        //converter.setSigningKey("cody");
-        converter.setKeyPair(keyPair());
+        converter.setSigningKey("cody");
         return converter;
-    }
-
-    @Bean
-    public KeyPair keyPair() {
-        //从classpath下的证书中获取秘钥对
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
-        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
     }
 
 }

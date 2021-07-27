@@ -30,8 +30,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             map.put(key, value);
         }
 
-
-
         // 拦截处理代码
         System.out.println("拦截到了");
         //返回true通过，返回false拦截
