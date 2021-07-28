@@ -1,6 +1,7 @@
 package com.demo.cody.gateway.filter;
 
 import com.demo.cody.gateway.config.IgnoreUrlsConfig;
+import com.demo.cody.gateway.service.IPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -37,6 +38,8 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
     @Autowired
     private IgnoreUrlsConfig ignoreUrlsConfig;
+    @Autowired
+    private IPermissionService permissionService;
 
 //    @Override
 //    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -95,7 +98,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
          *             return chain.filter(exchange.mutate().request(builder.build()).build());
          *         }
          */
-        if (true) {
+        if (permissionService.permission(authentication, url, method)) {
             ServerHttpRequest.Builder builder = request.mutate();
             //将jwt token中的用户信息传给服务
             builder.header(X_CLIENT_TOKEN_USER, authentication);

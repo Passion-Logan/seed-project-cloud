@@ -58,7 +58,7 @@ public class SecurityUser implements UserDetails {
         this.setEnabled(sysUser.getEnabled());
         // TODO 模拟权限
         authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("admin"));
+        //authorities.add(new SimpleGrantedAuthority("admin"));
     }
 
     @Override

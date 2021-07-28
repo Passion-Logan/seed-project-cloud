@@ -1,6 +1,10 @@
 package com.demo.cody.gateway.service.impl;
 
+import com.demo.cody.gateway.feigh.AuthFeignClient;
+import com.demo.cody.gateway.service.IPermissionService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  *
@@ -12,5 +16,14 @@ import org.springframework.stereotype.Service;
  * @lastUpdateTime 2021/7/27
  */
 @Service
-public class PermissionService {
+public class PermissionService implements IPermissionService {
+
+    @Resource
+    private AuthFeignClient authFeignClient;
+
+    @Override
+    public boolean permission(String authentication, String url, String method) {
+        return authFeignClient.permission(authentication, url, method);
+    }
+
 }
