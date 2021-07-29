@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @lastUpdateTime 2021/7/22
  */
 @RestController
-@RequestMapping("system")
+@RequestMapping("test")
 public class TestController {
 
-    @GetMapping("test")
+    @GetMapping("user")
     public Result test() {
         return Result.ok("可以了");
     }

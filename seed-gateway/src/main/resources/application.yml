@@ -17,6 +17,12 @@
 #            - Path=/auth/**
 #          filters:
 #            - StripPrefix=1 # 移除前缀 seed-auth
+#        - id: seed-system
+#          uri: lb://seed-system
+#          predicates:
+#            - Path=/system/**
+#          filters:
+#            - StripPrefix=1 # 移除前缀 seed-system
 #secure:
 #  ignore:
 #    urls: #配置白名单路径
@@ -24,8 +30,3 @@
 #      - "/auth/oauth/token"
 #      - "/auth/oauth/hasPermission"
 #      - "/auth/test/**"
-spring:
-  redis:
-    lettuce:
-      pool:
-        max-active: 
