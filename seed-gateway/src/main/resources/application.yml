@@ -24,3 +24,8 @@
 #      - "/auth/oauth/token"
 #      - "/auth/oauth/hasPermission"
 #      - "/auth/test/**"
+spring:
+  redis:
+    lettuce:
+      pool:
+        max-active: 

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.cody.system.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.demo.cody.common.entity.SysUser">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="enabled" column="enabled"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="jobId" column="job_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="loginIp" column="login_ip"/>
+        <result property="loginTime" column="login_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="columns">
+		id,
+		user_name,
+		nick_name,
+		email,
+		phone,
+		birthday,
+		sex,
+		avatar,
+		password,
+		enabled,
+		dept_id,
+		job_id,
+		create_by,
+		create_time,
+		login_ip,
+		login_time,
+		remark
+	</sql>
+
+    <sql id="where_condition">
+        <where>
+            <if test="sysUserQueryVO.id != null">
+                and id=#{sysUserQueryVO.id}
+            </if>
+            <if test="sysUserQueryVO.userName != null and sysUserQueryVO.userName != ''">
+                and user_name=#{sysUserQueryVO.userName}
+            </if>
+            <if test="sysUserQueryVO.nickName != null and sysUserQueryVO.nickName != ''">
+                and nick_name like concat('%', #{sysUserQueryVO.nickName}, '%')
+            </if>
+            <if test="sysUserQueryVO.email != null and sysUserQueryVO.email != ''">
+                and email=#{sysUserQueryVO.email}
+            </if>
+            <if test="sysUserQueryVO.phone != null and sysUserQueryVO.phone != ''">
+                and phone=#{sysUserQueryVO.phone}
+            </if>
+            <if test="sysUserQueryVO.birthday != null">
+                and birthday=#{sysUserQueryVO.birthday}
+            </if>
+            <if test="sysUserQueryVO.sex != null">
+                and sex=#{sysUserQueryVO.sex}
+            </if>
+            <if test="sysUserQueryVO.avatar != null and sysUserQueryVO.avatar != ''">
+                and avatar=#{sysUserQueryVO.avatar}
+            </if>
+            <if test="sysUserQueryVO.password != null and sysUserQueryVO.password != ''">
+                and password=#{sysUserQueryVO.password}
+            </if>
+            <if test="sysUserQueryVO.enabled != null">
+                and enabled=#{sysUserQueryVO.enabled}
+            </if>
+            <if test="sysUserQueryVO.deptId != null">
+                and dept_id=#{sysUserQueryVO.deptId}
+            </if>
+            <if test="sysUserQueryVO.jobId != null">
+                and job_id=#{sysUserQueryVO.jobId}
+            </if>
+            <if test="sysUserQueryVO.createBy != null and sysUserQueryVO.createBy != ''">
+                and create_by=#{sysUserQueryVO.createBy}
+            </if>
+            <if test="sysUserQueryVO.createTime != null">
+                and create_time=#{sysUserQueryVO.createTime}
+            </if>
+            <if test="sysUserQueryVO.loginIp != null and sysUserQueryVO.loginIp != ''">
+                and login_ip=#{sysUserQueryVO.loginIp}
+            </if>
+            <if test="sysUserQueryVO.loginTime != null">
+                and login_time=#{sysUserQueryVO.loginTime}
+            </if>
+            <if test="sysUserQueryVO.remark != null and sysUserQueryVO.remark != ''">
+                and remark=#{sysUserQueryVO.remark}
+            </if>
+        </where>
+    </sql>
+
+    <update id="updateDeptIdByUserIds">
+        update sys_user
+        set dept_id = #{deptId}
+        where id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+    <update id="frozenBatch">
+        update sys_user
+        set enabled = #{status}
+        where id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+    <select id="findByName" resultMap="BaseResultMap">
+        select
+        <include refid="columns"></include>
+        from sys_user
+        where user_name = #{userName}
+
+    </select>
+
+    <!--根据对象查询列表 <include refid="where_condition"/> -->
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.common.vo.system.request.SysUserQueryVO">
+        SELECT
+        <include refid="columns"/>
+        FROM sys_user
+        <include refid="where_condition" />
+        order by create_time desc
+    </select>
+
+
+
+</mapper>

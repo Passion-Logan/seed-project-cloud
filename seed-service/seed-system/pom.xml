@@ -17,6 +17,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.demo</groupId>
+            <artifactId>seed-common</artifactId>
+            <version>${seed-project-cloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.demo</groupId>
+            <artifactId>seed-nosql-redis</artifactId>
+            <version>${seed-project-cloud.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

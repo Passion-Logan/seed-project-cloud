@@ -1,16 +1,12 @@
 package com.demo.cody.auth.config;
 
-import com.demo.cody.auth.filter.AuthInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,19 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AuthInterceptor authInterceptor;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.addFilterBefore(authInterceptor, AuthInterceptor.class);
 
         /*http.csrf().disable();
         http.authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .antMatchers(
-                        "/oauth/**",
+                        "/oauth/**",v
                         "/login/**",
                         "/logout/**",
                         "/test/**"
@@ -57,4 +48,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

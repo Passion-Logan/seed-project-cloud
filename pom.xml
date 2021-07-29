@@ -169,18 +169,6 @@
                 <version>1.6.2</version>
             </dependency>
 
-            <!--JWT-->
-            <!--<dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>3.7.0</version>
-            </dependency> -->
-
-            <!--JWT(Json Web Token)登录支持-->
-            <!--<dependency>
-                <groupId>com.nimbusds</groupId>
-                <artifactId>nimbus-jose-jwt</artifactId>
-            </dependency>-->
         </dependencies>
     </dependencyManagement>
 

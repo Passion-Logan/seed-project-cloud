@@ -8,7 +8,6 @@ import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.entity.SysUserRole;
 import com.demo.cody.common.exception.CustomExecption;
-import com.demo.cody.common.util.MD5;
 import com.demo.cody.common.vo.system.request.SysUserQueryVO;
 import com.demo.cody.common.vo.system.response.SysUserResponseVO;
 import com.demo.cody.system.mapper.SysUserMapper;
@@ -20,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -55,7 +53,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public boolean insertUser(SysUser user, String selectedRoles) {
         //加密用户密码
-        String encrypt = new BCryptPasswordEncoder().encode(MD5.md5(user.getPassword()));
+        // TODO 远程调用auth模块的加密
+        //String encrypt = new BCryptPasswordEncoder().encode(MD5.md5(user.getPassword()));
+        String encrypt = "";
         user.setPassword(encrypt);
         //添加用户
         SysUser entity = BeanUtil.convert(user, SysUser.class);
@@ -197,7 +197,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new CustomExecption("不存在此用户");
         }
         //加密用户密码
-        String encrypt = new BCryptPasswordEncoder().encode(password);
+        // TODO 密码加密
+        //String encrypt = new BCryptPasswordEncoder().encode(password);
+        String encrypt = "";
         userDO.setPassword(encrypt);
         return sysUserMapper.updateById(userDO) > 0;
     }
