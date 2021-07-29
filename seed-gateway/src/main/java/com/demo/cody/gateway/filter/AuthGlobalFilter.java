@@ -2,7 +2,6 @@ package com.demo.cody.gateway.filter;
 
 import com.demo.cody.gateway.config.IgnoreUrlsConfig;
 import com.demo.cody.gateway.feigh.AuthFeignClient;
-import com.demo.cody.gateway.service.IPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -41,35 +40,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     @Autowired
     private IgnoreUrlsConfig ignoreUrlsConfig;
     @Resource
-    private IPermissionService permissionService;
-    @Resource
     private AuthFeignClient authFeignClient;
-
-//    @Override
-//    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-//        /*String token = exchange.getRequest().getHeaders().getFirst(AuthConstant.JWT_TOKEN_HEADER);
-//        String auth = exchange.getRequest().getHeaders().getFirst(AuthConstant.AUTHORITY_CLAIM_NAME);*/
-//
-//        /*if (StrUtil.isEmpty(token)) {
-//            return chain.filter(exchange);
-//        }*/
-//        //try {
-//        //从token中解析用户信息并设置到Header中去
-//            /*String realToken = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
-//            JWSObject jwsObject = JWSObject.parse(realToken);
-//            String userStr = jwsObject.getPayload().toString();
-//            log.info("AuthGlobalFilter.filter() user:{}",userStr);*/
-//        ServerHttpRequest request = exchange.getRequest().mutate()
-//                .headers(headers -> {
-//                    headers.add("user", "fsdfsdsssssssss");
-//                })
-//                .build();
-//        exchange = exchange.mutate().request(request).build();
-//        /*} catch (ParseException e) {
-//            e.printStackTrace();
-//        }*/
-//        return chain.filter(exchange);
-//    }
 
     @Override
     public int getOrder() {
@@ -91,20 +62,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 return chain.filter(exchange);
             }
         }
-        // TODO 调用签权服务看用户是否有权限，若有权限进入下一个filter
-        /**
-         * if (permissionService.permission(authentication, url, method)) {
-         *             ServerHttpRequest.Builder builder = request.mutate();
-         *             //TODO 转发的请求都加上服务间认证token
-         *             builder.header(X_CLIENT_TOKEN, "TODO zhoutaoo添加服务间简单认证");
-         *             //将jwt token中的用户信息传给服务
-         *             builder.header(X_CLIENT_TOKEN_USER, getUserToken(authentication));
-         *             return chain.filter(exchange.mutate().request(builder.build()).build());
-         *         }
-         */
-        //if (authFeignClient.permission(authentication, url, method)) {
-//        if (permissionService.permission(authentication, url, method)) {
-        if (true) {
+        if (authFeignClient.permission(authentication, url, method)) {
             ServerHttpRequest.Builder builder = request.mutate();
             //将jwt token中的用户信息传给服务
             builder.header(X_CLIENT_TOKEN_USER, authentication);

@@ -48,9 +48,16 @@ public class AuthController {
         return Result.ok(dto);
     }
 
+    /**
+     * TODO 待优化返回鉴权结果
+     * @param authentication
+     * @param url
+     * @param method
+     * @return
+     */
     @GetMapping("/hasPermission")
-    public Result decide(@RequestParam String authentication, @RequestParam String url, @RequestParam String method) {
-        return Result.ok(authService.hasPermission(authentication, url, method));
+    public Boolean decide(@RequestParam String authentication, @RequestParam String url, @RequestParam String method) {
+        return authService.hasPermission(authentication, url, method);
     }
 
     @GetMapping("getJwt")
