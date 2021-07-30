@@ -5,8 +5,6 @@ import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -57,6 +55,7 @@ public class AuthServiceImpl implements IAuthService {
         if (jwtToken.startsWith(BEARER)) {
             jwtToken = StringUtils.substring(jwtToken, BEARER.length());
         }
+        jwtToken = StringUtils.substring(jwtToken, BEARER.length());
         return Jwts.parser()
                 .setSigningKey(signingKey.getBytes())
                 .parseClaimsJws(jwtToken);

@@ -1,5 +1,7 @@
 package com.demo.cody.auth.config;
 
+import com.demo.cody.auth.exception.AuthExceptionEntryPoint;
+import com.demo.cody.auth.exception.CustomAccessDeniedHandler;
 import com.demo.cody.auth.properties.SecurityConfigProperties;
 import com.demo.cody.auth.service.security.CustomUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
@@ -44,6 +45,10 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     private CustomUserService userService;
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
+    @Autowired
+    private AuthExceptionEntryPoint authExceptionEntryPoint;
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
@@ -54,6 +59,9 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .withClient(properties.getClientId())
                 .secret(passwordEncoder.encode(properties.getClientSecret()))
                 .scopes(properties.getScope())
+                // TODO 测试指定过期时间为5秒
+                .accessTokenValiditySeconds(5)
+                .refreshTokenValiditySeconds(5)
                 .authorizedGrantTypes("authorization_code", "password", "refresh_token");
         log.debug("ClientDetailsServiceConfigurer 已完成。");
     }
@@ -79,6 +87,8 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
+                .authenticationEntryPoint(authExceptionEntryPoint)
+                .accessDeniedHandler(customAccessDeniedHandler)
                 .allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
