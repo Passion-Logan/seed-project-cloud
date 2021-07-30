@@ -63,6 +63,12 @@
             <version>0.9.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.demo</groupId>
+            <artifactId>seed-nosql-redis</artifactId>
+            <version>${seed-project-cloud.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -7,6 +7,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -49,7 +51,6 @@ public class AuthController {
     }
 
     /**
-     * TODO 待优化返回鉴权结果
      * @param authentication
      * @param url
      * @param method
@@ -60,8 +61,14 @@ public class AuthController {
         return authService.hasPermission(authentication, url, method);
     }
 
+    /**
+     * 解析token信息
+     *
+     * @param jwtToken
+     * @return
+     */
     @GetMapping("getJwt")
-    public Result getJwt(String jwtToken) {
+    public Result getJwt(@RequestParam String jwtToken) {
         return Result.ok(authService.getJwt(jwtToken));
     }
 
