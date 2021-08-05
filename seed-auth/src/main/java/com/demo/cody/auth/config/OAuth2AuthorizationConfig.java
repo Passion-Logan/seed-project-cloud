@@ -1,15 +1,19 @@
 package com.demo.cody.auth.config;
 
-import com.demo.cody.auth.exception.AuthExceptionEntryPoint;
-import com.demo.cody.auth.exception.CustomAccessDeniedHandler;
+import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONUtil;
+import com.demo.cody.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.demo.cody.auth.properties.SecurityConfigProperties;
 import com.demo.cody.auth.service.security.CustomUserService;
+import com.demo.cody.common.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -20,6 +24,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
  * ClassName: OAuth2AuthorizationConfig
@@ -45,10 +50,6 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     private CustomUserService userService;
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
-    @Autowired
-    private AuthExceptionEntryPoint authExceptionEntryPoint;
-    @Autowired
-    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
@@ -86,9 +87,13 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(security);
+        endpointFilter.afterPropertiesSet();
+        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
+        security.addTokenEndpointAuthenticationFilter(endpointFilter);
+
         security
-                .authenticationEntryPoint(authExceptionEntryPoint)
-                .accessDeniedHandler(customAccessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntryPoint())
                 .allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
@@ -119,6 +124,19 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
         // 设置签名
         converter.setSigningKey(signingKey);
         return converter;
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, e) -> {
+            response.setStatus(HttpStatus.HTTP_OK);
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Cache-Control", "no-cache");
+            Result result = Result.error(500, "客户端认证失败");
+            response.getWriter().print(JSONUtil.toJsonStr(result));
+            response.getWriter().flush();
+        };
     }
 
 }

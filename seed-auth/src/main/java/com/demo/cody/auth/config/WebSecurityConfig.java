@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .antMatchers(
-                        "/oauth/**",v
+                        "/oauth/**",
                         "/login/**",
                         "/logout/**",
                         "/test/**"
