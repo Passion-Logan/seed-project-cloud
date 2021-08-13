@@ -55,7 +55,7 @@ public class ExceptionAutoConfiguration {
         this.applicationContext = applicationContext;
         this.resourceProperties = resourceProperties;
         this.viewResolvers = viewResolversProvider
-                .getIfAvailable(() -> Collections.emptyList());
+                .getIfAvailable(Collections::emptyList);
         this.serverCodecConfigurer = serverCodecConfigurer;
     }
 

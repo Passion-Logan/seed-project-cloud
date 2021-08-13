@@ -28,69 +28,67 @@ import java.security.SignatureException;
 public class GateWayExceptionHandlerAdvice {
 
     @ExceptionHandler(value = {ResponseStatusException.class})
-    public Result handle(ResponseStatusException ex) {
+    public Result<String> handle(ResponseStatusException ex) {
         log.error("response status exception:{}", ex.getMessage());
         return Result.error(SystemErrorType.GATEWAY_ERROR.getMesg());
     }
 
     @ExceptionHandler(value = {ConnectTimeoutException.class})
-    public Result handle(ConnectTimeoutException ex) {
+    public Result<String> handle(ConnectTimeoutException ex) {
         log.error("connect timeout exception:{}", ex.getMessage());
         return Result.error(SystemErrorType.GATEWAY_CONNECT_TIME_OUT.getMesg());
     }
 
     @ExceptionHandler(value = {NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Result handle(NotFoundException ex) {
+    public Result<String> handle(NotFoundException ex) {
         log.error("not found exception:{}", ex.getMessage());
         return Result.error(SystemErrorType.GATEWAY_NOT_FOUND_SERVICE.getMesg());
     }
 
     @ExceptionHandler(value = {ExpiredJwtException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Result handle(ExpiredJwtException ex) {
+    public Result<String> handle(ExpiredJwtException ex) {
         log.error("ExpiredJwtException:{}", ex.getMessage());
         return Result.error(SystemErrorType.INVALID_TOKEN.getMesg());
     }
 
     @ExceptionHandler(value = {SignatureException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Result handle(SignatureException ex) {
+    public Result<String> handle(SignatureException ex) {
         log.error("SignatureException:{}", ex.getMessage());
         return Result.error(SystemErrorType.INVALID_TOKEN.getMesg());
     }
 
     @ExceptionHandler(value = {MalformedJwtException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Result handle(MalformedJwtException ex) {
+    public Result<String> handle(MalformedJwtException ex) {
         log.error("MalformedJwtException:{}", ex.getMessage());
         return Result.error(SystemErrorType.INVALID_TOKEN.getMesg());
     }
 
     @ExceptionHandler(value = {RuntimeException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handle(RuntimeException ex) {
+    public Result<String> handle(RuntimeException ex) {
         log.error("runtime exception:{}", ex.getMessage());
         return Result.error("系统错误");
     }
 
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handle(Exception ex) {
+    public Result<String> handle(Exception ex) {
         log.error("exception:{}", ex.getMessage());
         return Result.error("系统错误");
     }
 
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handle(Throwable throwable) {
-        Result result = Result.error("系统错误");
+    public Result<String> handle(Throwable throwable) {
+        Result<String> result = Result.error("系统错误");
         if (throwable instanceof ResponseStatusException) {
             result = handle((ResponseStatusException) throwable);
         } else if (throwable instanceof ConnectTimeoutException) {
             result = handle((ConnectTimeoutException) throwable);
-        } else if (throwable instanceof NotFoundException) {
-            result = handle((NotFoundException) throwable);
         } else if (throwable instanceof RuntimeException) {
             result = handle((RuntimeException) throwable);
         } else if (throwable instanceof Exception) {

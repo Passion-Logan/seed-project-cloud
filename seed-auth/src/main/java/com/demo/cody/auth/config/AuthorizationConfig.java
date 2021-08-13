@@ -2,12 +2,10 @@ package com.demo.cody.auth.config;
 
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
-import com.demo.cody.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.demo.cody.auth.properties.SecurityConfigProperties;
 import com.demo.cody.auth.service.security.CustomUserService;
 import com.demo.cody.common.vo.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,29 +24,30 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import javax.annotation.Resource;
+
 /**
  * ClassName: OAuth2AuthorizationConfig
- * 认证服务器配置
  *
  * @author WQL
- * @Description:
+ * @Description: 认证服务器配置
  * @date: 2021/7/11 16:31
  * @since JDK 1.8
  */
 @Slf4j
 @Configuration
 @EnableAuthorizationServer
-public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
+    @Resource
     private SecurityConfigProperties properties;
-    @Autowired
+    @Resource
     private AuthenticationManager authenticationManager;
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
-    @Autowired
+    @Resource
     private CustomUserService userService;
-    @Autowired
+    @Resource
     private RedisConnectionFactory redisConnectionFactory;
 
     @Value("${spring.security.oauth2.jwt.signingKey}")
@@ -68,7 +67,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 // token存储源
                 .tokenStore(tokenStore())
@@ -82,18 +81,11 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     /**
      * 允许表单登录
      *
-     * @param security
-     * @throws Exception
+     * @param security security
      */
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(security);
-        endpointFilter.afterPropertiesSet();
-        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
-        security.addTokenEndpointAuthenticationFilter(endpointFilter);
-
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         security
-                .authenticationEntryPoint(authenticationEntryPoint())
                 .allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
@@ -104,11 +96,11 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
      * 采用jwt作为Token生成格式
      * 并且使用自定义的 加密Key进行加密
      *
-     * @return
+     * @return TokenStore
      */
     @Bean
     public TokenStore tokenStore() {
-        //return new JwtTokenStore(jwtAccessTokenConverter());
+//        return new JwtTokenStore(jwtAccessTokenConverter());
         return new RedisTokenStore(redisConnectionFactory);
     }
 
@@ -116,7 +108,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
      * 配置jwt生成token的转换
      * 使用自定义Sign Key 进行加密
      *
-     * @return
+     * @return JwtAccessTokenConverter
      */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
@@ -133,8 +125,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Cache-Control", "no-cache");
-            Result result = Result.error(500, "客户端认证失败");
-            response.getWriter().print(JSONUtil.toJsonStr(result));
+            response.getWriter().print(JSONUtil.toJsonStr(Result.error(500, "客户端认证失败")));
             response.getWriter().flush();
         };
     }
