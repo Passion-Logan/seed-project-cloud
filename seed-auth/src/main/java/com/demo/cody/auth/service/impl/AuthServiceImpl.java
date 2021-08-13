@@ -1,7 +1,9 @@
 package com.demo.cody.auth.service.impl;
 
 import com.demo.cody.auth.service.IAuthService;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,14 +65,8 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public boolean invalidJwtAccessToken(String authentication) {
         // 是否无效true表示无效
-        boolean invalid = Boolean.TRUE;
-        try {
-            getJwt(authentication);
-            invalid = Boolean.FALSE;
-        } catch (SignatureException | ExpiredJwtException | MalformedJwtException ex) {
-            log.error("user token error :{}", ex.getMessage());
-        }
-        return invalid;
+        getJwt(authentication);
+        return Boolean.FALSE;
     }
 
     /**
