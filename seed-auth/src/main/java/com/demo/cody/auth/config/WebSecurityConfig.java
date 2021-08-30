@@ -16,17 +16,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        /*http.csrf().disable();
-        http.authorizeRequests()
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .antMatchers(
-                        "/oauth/**",
-                        "/login/**",
-                        "/logout/**",
-                        "/test/**"
-                ).permitAll()
-                .anyRequest().authenticated();*/
         http.csrf().disable().authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .antMatchers(

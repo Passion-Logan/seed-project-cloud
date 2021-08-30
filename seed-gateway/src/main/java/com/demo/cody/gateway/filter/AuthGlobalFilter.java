@@ -62,8 +62,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 return chain.filter(exchange);
             }
         }
-        boolean permission = authFeignClient.permission(authentication, url, method);
-        if (permission) {
+        if (authFeignClient.permission(authentication, url, method)) {
             ServerHttpRequest.Builder builder = request.mutate();
             //将jwt token中的用户信息传给服务 TODO 可以构建一个security放入以便其他服务调用
             builder.header(X_CLIENT_TOKEN_USER, authentication);
