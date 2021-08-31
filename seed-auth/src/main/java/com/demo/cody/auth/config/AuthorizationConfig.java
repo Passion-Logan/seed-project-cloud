@@ -59,9 +59,6 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient(properties.getClientId())
                 .secret(passwordEncoder.encode(properties.getClientSecret()))
                 .scopes(properties.getScope())
-                // TODO 测试指定过期时间为5秒
-                .accessTokenValiditySeconds(5)
-                .refreshTokenValiditySeconds(5)
                 .authorizedGrantTypes("authorization_code", "password", "refresh_token");
         log.debug("ClientDetailsServiceConfigurer 已完成。");
     }
@@ -93,8 +90,6 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
      * 配置token存储源
-     * 采用jwt作为Token生成格式
-     * 并且使用自定义的 加密Key进行加密
      *
      * @return TokenStore
      */
