@@ -1,4 +1,4 @@
-package com.demo.cody.system.util;
+package com.demo.cody.common.util;
 
 import com.demo.cody.common.exception.CustomExecption;
 import org.slf4j.Logger;

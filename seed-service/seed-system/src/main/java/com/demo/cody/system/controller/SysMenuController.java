@@ -1,26 +1,35 @@
 package com.demo.cody.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cody.common.api.vo.Result;
-import com.cody.seed.modules.system.entity.SysMenu;
-import com.cody.seed.modules.system.entity.SysRoleMenu;
-import com.cody.seed.modules.system.service.ISysMenuService;
-import com.cody.seed.modules.system.service.ISysRoleMenuService;
-import com.cody.seed.modules.util.TreeUtil;
-import com.cody.seed.modules.vo.response.SysUserMenuResponseVO;
+import com.demo.cody.common.entity.SysMenu;
+import com.demo.cody.common.entity.SysRoleMenu;
+import com.demo.cody.common.vo.Result;
+import com.demo.cody.common.vo.system.response.SysUserMenuResponseVO;
+import com.demo.cody.system.service.ISysMenuService;
+import com.demo.cody.system.service.ISysRoleMenuService;
+import com.demo.cody.system.util.TreeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.*;
 
+/**
+ * 系统-菜单管理
+ *
+ * @author wql
+ * @date 2021/8/31
+ * @lastUpdateUser wql
+ * @lastUpdateDesc
+ * @lastUpdateTime 2021/8/31
+ */
 @RestController
 @Api(value = "SysMenuController", tags = "系统-菜单管理")
 @RequestMapping("/sys/menu")
@@ -28,15 +37,20 @@ import java.util.*;
 @Slf4j
 public class SysMenuController {
 
-    @Autowired
+    @Resource
     private ISysMenuService menuService;
 
-    @Autowired
+    @Resource
     private ISysRoleMenuService roleMenuService;
 
+    /**
+     * 查询角色
+     *
+     * @return Map<String, Object>
+     */
     @ApiOperation(value = "查询角色")
     @GetMapping(value = "/queryTreeList")
-    public Result queryTreeList() {
+    public Result<Map<String, Object>> queryTreeList() {
         Map<String, Object> resMap = new HashMap<>(1);
         resMap.put("treeList", menuService.queryTreeList());
         return Result.ok(resMap);
@@ -45,12 +59,11 @@ public class SysMenuController {
     /**
      * 菜单树形展示
      *
-     * @return
+     * @return List<SysUserMenuResponseVO>
      */
-    //@Cacheable(value="menuCache")
     @ApiOperation(value = "菜单树形展示")
     @GetMapping("list")
-    public Result selectPageList() {
+    public Result<List<SysUserMenuResponseVO>> selectPageList() {
         // todo:添加缓存
         List<SysUserMenuResponseVO> data = new ArrayList<>();
         List<SysUserMenuResponseVO> voList = menuService.getList();
@@ -65,7 +78,7 @@ public class SysMenuController {
     @ApiOperation(value = "添加菜单")
     @PostMapping("addMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result addMenu(@RequestBody @Valid SysMenu menu) {
+    public Result<String> addMenu(@RequestBody @Valid SysMenu menu) {
         menuService.save(menu);
         return Result.ok();
     }
@@ -73,7 +86,7 @@ public class SysMenuController {
     @ApiOperation(value = "编辑菜单")
     @PutMapping("updateMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result updateMenu(@RequestBody @Valid SysMenu menu) {
+    public Result<String> updateMenu(@RequestBody @Valid SysMenu menu) {
         menuService.updateById(menu);
         return Result.ok();
     }
@@ -82,13 +95,13 @@ public class SysMenuController {
      * 删除节点菜单
      * 如果父节点存在子节点 则不删除
      *
-     * @param id
-     * @return
+     * @param id id
+     * @return String
      */
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("deleteMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result deleteMenu(@ApiParam(name = "id", value = "id", required = true) @RequestParam String id) {
+    public Result<String> deleteMenu(@ApiParam(name = "id", value = "id", required = true) @RequestParam String id) {
         menuService.deleteById(id);
         return Result.ok();
     }
@@ -97,13 +110,13 @@ public class SysMenuController {
      * 批量删除节点菜单
      * 如果父节点存在子节点 则不删除
      *
-     * @param object
-     * @return
+     * @param object object
+     * @return String
      */
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("removeMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result removeMenu(@RequestBody JSONObject object) {
+    public Result<String> removeMenu(@RequestBody JSONObject object) {
         List<String> ids = Arrays.asList(object.getString("ids").split(","));
         menuService.deleteBatch(ids);
         return Result.ok();
@@ -111,11 +124,10 @@ public class SysMenuController {
 
     @GetMapping("queryRolePermission")
     @ApiOperation(value = "查询角色授权")
-    public Result queryRolePermission(@RequestParam(name = "roleId") String roleId) {
+    public Result<List<String>> queryRolePermission(@RequestParam(name = "roleId") String roleId) {
         List<SysRoleMenu> list = roleMenuService.getListByRoleId(roleId);
         List<String> idList = new ArrayList<>();
-
-        list.stream().forEach(item -> idList.add(item.getMenuId()));
+        list.forEach(item -> idList.add(item.getMenuId()));
 
         return Result.ok(idList);
     }

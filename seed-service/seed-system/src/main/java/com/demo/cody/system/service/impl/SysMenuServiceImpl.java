@@ -10,7 +10,7 @@ import com.demo.cody.common.vo.system.response.TreeData;
 import com.demo.cody.system.mapper.SysMenuMapper;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysRoleMenuService;
-import com.demo.cody.system.util.BeanUtil;
+import com.demo.cody.common.util.BeanUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

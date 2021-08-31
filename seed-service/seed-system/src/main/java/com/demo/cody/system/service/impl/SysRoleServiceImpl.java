@@ -8,7 +8,7 @@ import com.demo.cody.common.vo.system.request.SysRoleQueryVO;
 import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
 import com.demo.cody.system.mapper.SysRoleMapper;
 import com.demo.cody.system.service.ISysRoleService;
-import com.demo.cody.system.util.BeanUtil;
+import com.demo.cody.common.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -14,7 +14,7 @@ import com.demo.cody.system.mapper.SysUserMapper;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysUserRoleService;
 import com.demo.cody.system.service.ISysUserService;
-import com.demo.cody.system.util.BeanUtil;
+import com.demo.cody.common.util.BeanUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

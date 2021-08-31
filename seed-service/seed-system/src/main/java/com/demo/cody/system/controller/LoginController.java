@@ -5,6 +5,7 @@ import com.demo.cody.common.entity.SysLoginLog;
 import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysRole;
 import com.demo.cody.common.entity.SysUser;
+import com.demo.cody.common.util.BeanUtil;
 import com.demo.cody.common.util.IPUtilsPro;
 import com.demo.cody.common.util.SecurityUtils;
 import com.demo.cody.common.vo.Result;
@@ -16,14 +17,11 @@ import com.demo.cody.system.service.ISysLoginLogService;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysRoleService;
 import com.demo.cody.system.service.ISysUserService;
-import com.demo.cody.system.util.BeanUtil;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.zengtengpeng.operation.RedissonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,23 +31,31 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 系统-spring security登录
+ *
+ * @author wql
+ * @date 2021/8/31
+ * @lastUpdateUser wql
+ * @lastUpdateDesc
+ * @lastUpdateTime 2021/8/31
+ */
 @Api(value = "LoginController", tags = "系统-spring security登录")
 @RequestMapping("/auth")
 @RestController
+@Slf4j
 public class LoginController {
 
-    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-    @Autowired
+    @Resource
     private ISysUserService sysUserService;
 
-    @Autowired
+    @Resource
     private ISysRoleService roleService;
 
-    @Autowired
+    @Resource
     private ISysMenuService sysMenuService;
 
-    @Autowired
+    @Resource
     private ISysLoginLogService loginLogService;
 
     @Resource
