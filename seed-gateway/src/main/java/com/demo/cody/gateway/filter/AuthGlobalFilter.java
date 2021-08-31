@@ -2,12 +2,14 @@ package com.demo.cody.gateway.filter;
 
 import com.demo.cody.gateway.config.IgnoreUrlsConfig;
 import com.demo.cody.gateway.feigh.AuthFeignClient;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -19,6 +21,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -78,10 +81,14 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
      * @param
      */
     private Mono<Void> unauthorized(ServerWebExchange serverWebExchange) {
-        serverWebExchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-        DataBuffer buffer = serverWebExchange.getResponse()
-                .bufferFactory().wrap(HttpStatus.UNAUTHORIZED.getReasonPhrase().getBytes());
-        return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
+        return Mono.defer(() -> Mono.just(serverWebExchange.getResponse()))
+                .flatMap(response -> {
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    String body = "{\"code\":401,\"msg\":\"token不合法或过期\"}";
+                    DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
+                    return response.writeWith(Mono.just(buffer))
+                            .doOnError(error -> DataBufferUtils.release(buffer));
+                });
     }
 
 }
