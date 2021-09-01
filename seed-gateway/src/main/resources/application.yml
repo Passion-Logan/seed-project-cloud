@@ -30,3 +30,4 @@
 #      - "/auth/oauth/token"
 #      - "/auth/oauth/hasPermission"
 #      - "/auth/test/**"
+#      - "/system/auth/captcha"
