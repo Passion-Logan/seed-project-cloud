@@ -6,10 +6,8 @@ import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysRole;
 import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.util.BeanUtil;
-import com.demo.cody.common.util.IPUtilsPro;
 import com.demo.cody.common.util.SecurityUtils;
 import com.demo.cody.common.vo.Result;
-import com.demo.cody.common.vo.system.LoginRequestVO;
 import com.demo.cody.common.vo.system.response.MenuResponseVO;
 import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
 import com.demo.cody.common.vo.system.response.SysUserInfoResponseVO;
@@ -25,8 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -92,32 +88,18 @@ public class LoginController {
         insertLoginLog(loginRequestVO, request);
         return token;
     }*/
+
+    /**
+     * 记录日志
+     *
+     * @param data data
+     * @return Boolean
+     */
     @PostMapping(value = "/insertLog")
     public Result<Boolean> insertLog(@RequestBody SysLoginLog data) {
         log.info("============== 日志信息： {}", data);
         return Result.ok(loginLogService.save(data));
     }
-
-    /**
-     * 记录登录日志
-     *
-     * @param loginRequestVO loginRequestVO
-     * @param request        request
-     */
-    private void insertLoginLog(LoginRequestVO loginRequestVO, HttpServletRequest request) {
-        //记录登录日志
-        SysLoginLog loginLog = new SysLoginLog();
-        loginLog.setLoginName(loginRequestVO.getUsername());
-        String ip = IPUtilsPro.getIpAddr(request);
-        loginLog.setIp(ip);
-        loginLog.setBrowser(IPUtilsPro.getBrowser(request));
-        loginLog.setOs(IPUtilsPro.getOperatingSystem(request));
-        loginLog.setStatus(0);
-        loginLog.setLoginTime(LocalDateTime.now());
-
-        loginLogService.save(loginLog);
-    }
-
 
     /**
      * 验证码

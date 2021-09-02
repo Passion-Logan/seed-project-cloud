@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jws;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Oauth认证
@@ -43,6 +46,8 @@ public class AuthController {
     private IAuthService authService;
     @Resource
     private SystemService systemService;
+    @Resource(name = "defaultThreadPoolExecutor")
+    private ThreadPoolExecutor poolExecutor;
 
     /**
      * Oauth2获取token
@@ -56,17 +61,17 @@ public class AuthController {
     @ApiOperation("Oauth2获取token")
     @PostMapping("/token")
     public Result<Oauth2TokenDto> login(Principal principal, @RequestParam Map<String, String> parameters, HttpServletRequest request) throws HttpRequestMethodNotSupportedException {
-        /*OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         Oauth2TokenDto dto = Oauth2TokenDto.builder()
                 .token(Objects.requireNonNull(oAuth2AccessToken).getValue())
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
-                .build();*/
+                .build();
 
         // feign 添加登陆日志
-        saveLogRecord("test", request);
+        saveLogRecord(parameters.get("username"), request);
 
-        return Result.ok(null);
+        return Result.ok(dto);
     }
 
     /**
@@ -105,10 +110,12 @@ public class AuthController {
         String browser = IPUtilsPro.getBrowser(request);
         String operatingSystem = IPUtilsPro.getOperatingSystem(request);
 
-        SysLoginLog build = SysLoginLog.builder().loginName(username).ip(ip).browser(browser).os(operatingSystem)
-                .status(0).loginTime(LocalDateTime.now()).build();
+        poolExecutor.execute(() -> {
+            SysLoginLog build = SysLoginLog.builder().loginName(username).ip(ip).browser(browser).os(operatingSystem)
+                    .status(0).loginTime(LocalDateTime.now()).build();
 
-        systemService.insertLog(build);
+            systemService.insertLog(build);
+        });
     }
 
 }
