@@ -8,8 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 用户安全模型
@@ -51,13 +51,13 @@ public class SecurityUser implements UserDetails {
      */
     private Collection<SimpleGrantedAuthority> authorities;
 
-    public SecurityUser(SysUser sysUser) {
+    public SecurityUser(SysUser sysUser, List<SimpleGrantedAuthority> authorityList) {
         this.setId(sysUser.getId());
         this.setUsername(sysUser.getUserName());
         this.setPassword(sysUser.getPassword());
         this.setEnabled(sysUser.getEnabled());
         // TODO 模拟权限
-        authorities = new ArrayList<>();
+        authorities.addAll(authorityList);
         //authorities.add(new SimpleGrantedAuthority("admin"));
     }
 

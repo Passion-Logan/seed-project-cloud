@@ -30,7 +30,7 @@
 #    port: 6379
 ##mybatis plus 设置
 #mybatis-plus:
-#  mapper-locations: classpath*:com/demo/cody/**/xml/*Mapper.xml
+#  mapper-locations: classpath*:com/demo/cody/**/mapper/xml/*Mapper.xml
 #  global-config:
 #    # 关闭MP3.0自带的banner
 #    banner: false

@@ -3,14 +3,16 @@ package com.demo.cody.auth.service.security;
 import cn.hutool.core.util.IdUtil;
 import com.demo.cody.auth.constant.MessageConstant;
 import com.demo.cody.auth.entity.SecurityUser;
+import com.demo.cody.auth.feign.SystemService;
 import com.demo.cody.common.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,8 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -38,8 +42,10 @@ public class CustomUserService implements UserDetailsService {
     List<SysUser> list;
     private List<User> userList;
 
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
+    @Resource
+    private SystemService systemService;
 
     @PostConstruct
     public void init() {
@@ -57,18 +63,28 @@ public class CustomUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         // TODO 模拟用户查询
-        List<SysUser> user = list.stream().filter(f -> f.getUserName().equals(s)).collect(Collectors.toList());
+        /*List<SysUser> user = list.stream().filter(f -> f.getUserName().equals(s)).collect(Collectors.toList());
         if (user.size() == 0) {
             throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
-        }
+        }*/
+
+
         // 用户权限列表，根据用户拥有的权限标识与如 @PreAuthorize("hasAuthority('sys:menu:view')") 标注的接口对比，决定是否可以调用接口
         // List<String> permissions = sysMenuService.getPermissionsByUserId(user.getId());
         // log.info("用户权限标识 permissions = {}", permissions);
         // List<GrantedAuthority> grantedAuthorities = permissions.stream().map(GrantedAuthorityImpl::new).collect(Collectors.toList());
         //return new JwtUserDetails(username, user.getPassword(), user.getEnabled(), grantedAuthorities);
         // TODO 用户权限查询
-        SysUser findUser = user.get(0);
-        SecurityUser securityUser = new SecurityUser(findUser);
+        //SysUser findUser = user.get(0);
+
+        SysUser findUser = systemService.findByUsername(s);
+        if (Objects.isNull(findUser)) {
+            throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
+        }
+        List<String> permissions = systemService.getPermissionsByUserId(findUser.getId());
+        log.info("用户权限标识 permissions = {}", permissions);
+        List<SimpleGrantedAuthority> grantedAuthorities = permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        SecurityUser securityUser = new SecurityUser(findUser, grantedAuthorities);
 
         if (!securityUser.getEnabled()) {
             throw new DisabledException(MessageConstant.ACCOUNT_DISABLED);

@@ -132,4 +132,10 @@ public class SysMenuController {
         return Result.ok(idList);
     }
 
+    @GetMapping("getPermissionsByUserId")
+    @ApiOperation(value = "根据用户id查询用户权限")
+    public List<String> getPermissionsByUserId(@RequestParam("userId") String userId) {
+        return menuService.getPermissionsByUserId(userId);
+    }
+
 }
