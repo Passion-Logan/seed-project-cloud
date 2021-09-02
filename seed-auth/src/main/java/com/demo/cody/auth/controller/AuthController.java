@@ -1,20 +1,25 @@
 package com.demo.cody.auth.controller;
 
 import com.demo.cody.auth.entity.Oauth2TokenDto;
+import com.demo.cody.auth.feign.SystemService;
 import com.demo.cody.auth.service.IAuthService;
+import com.demo.cody.common.entity.SysLoginLog;
+import com.demo.cody.common.util.IPUtilsPro;
 import com.demo.cody.common.vo.Result;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Oauth认证
@@ -36,21 +41,37 @@ public class AuthController {
     private TokenEndpoint tokenEndpoint;
     @Resource
     private IAuthService authService;
+    @Resource
+    private SystemService systemService;
 
+    /**
+     * Oauth2获取token
+     *
+     * @param principal  principal
+     * @param parameters parameters
+     * @param request    request
+     * @return Oauth2TokenDto
+     * @throws HttpRequestMethodNotSupportedException 异常
+     */
     @ApiOperation("Oauth2获取token")
     @PostMapping("/token")
-    @SuppressWarnings("all")
-    public Result login(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
-        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+    public Result<Oauth2TokenDto> login(Principal principal, @RequestParam Map<String, String> parameters, HttpServletRequest request) throws HttpRequestMethodNotSupportedException {
+        /*OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         Oauth2TokenDto dto = Oauth2TokenDto.builder()
                 .token(Objects.requireNonNull(oAuth2AccessToken).getValue())
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
-                .build();
-        return Result.ok(dto);
+                .build();*/
+
+        // feign 添加登陆日志
+        saveLogRecord("test", request);
+
+        return Result.ok(null);
     }
 
     /**
+     * 权限校验
+     *
      * @param authentication authentication
      * @param url            url
      * @param method         method
@@ -68,9 +89,26 @@ public class AuthController {
      * @return Result
      */
     @GetMapping("getJwt")
-    @SuppressWarnings("all")
-    public Result getJwt(@RequestParam String jwtToken) {
+    public Result<Jws<Claims>> getJwt(@RequestParam String jwtToken) {
         return Result.ok(authService.getJwt(jwtToken));
+    }
+
+    /**
+     * 日志记录
+     *
+     * @param username username
+     * @param request  request
+     */
+    private void saveLogRecord(String username, HttpServletRequest request) {
+        //记录登录日志
+        String ip = IPUtilsPro.getIpAddr(request);
+        String browser = IPUtilsPro.getBrowser(request);
+        String operatingSystem = IPUtilsPro.getOperatingSystem(request);
+
+        SysLoginLog build = SysLoginLog.builder().loginName(username).ip(ip).browser(browser).os(operatingSystem)
+                .status(0).loginTime(LocalDateTime.now()).build();
+
+        systemService.insertLog(build);
     }
 
 }

@@ -2,20 +2,29 @@ package com.demo.cody.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
- * @Description: 系统登录日志表
- * @date: 2020年06月16日 18:13
+ * 系统登录日志表
+ *
+ * @author wql
+ * @date 2021/9/2
+ * @lastUpdateUser wql
+ * @lastUpdateDesc
+ * @lastUpdateTime 2021/9/2
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysLoginLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,6 +73,8 @@ public class SysLoginLog implements Serializable {
     /**
      * 访问时间
      */
-    private Date loginTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime loginTime;
 
 }

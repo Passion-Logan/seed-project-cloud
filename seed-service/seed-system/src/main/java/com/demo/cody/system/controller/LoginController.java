@@ -22,12 +22,11 @@ import com.zengtengpeng.operation.RedissonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -93,6 +92,11 @@ public class LoginController {
         insertLoginLog(loginRequestVO, request);
         return token;
     }*/
+    @PostMapping(value = "/insertLog")
+    public Result<Boolean> insertLog(@RequestBody SysLoginLog data) {
+        log.info("============== 日志信息： {}", data);
+        return Result.ok(loginLogService.save(data));
+    }
 
     /**
      * 记录登录日志
@@ -109,7 +113,7 @@ public class LoginController {
         loginLog.setBrowser(IPUtilsPro.getBrowser(request));
         loginLog.setOs(IPUtilsPro.getOperatingSystem(request));
         loginLog.setStatus(0);
-        loginLog.setLoginTime(new Date());
+        loginLog.setLoginTime(LocalDateTime.now());
 
         loginLogService.save(loginLog);
     }
