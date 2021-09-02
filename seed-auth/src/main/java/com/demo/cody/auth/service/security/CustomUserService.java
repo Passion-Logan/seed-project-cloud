@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.demo.cody.auth.constant.MessageConstant;
 import com.demo.cody.auth.entity.SecurityUser;
 import com.demo.cody.auth.feign.SystemService;
+import com.demo.cody.common.entity.SysLoginLog;
 import com.demo.cody.common.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -47,7 +48,7 @@ public class CustomUserService implements UserDetailsService {
     @Resource
     private SystemService systemService;
 
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
         String password = passwordEncoder.encode("123456");
         list = new ArrayList<>();
@@ -58,7 +59,7 @@ public class CustomUserService implements UserDetailsService {
         userList.add(new User("macro", password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin")));
         userList.add(new User("andy", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
         userList.add(new User("mark", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
-    }
+    }*/
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -78,6 +79,9 @@ public class CustomUserService implements UserDetailsService {
         //SysUser findUser = user.get(0);
 
         SysUser findUser = systemService.findByUsername(s);
+
+        log.info(" ========={}", findUser);
+
         if (Objects.isNull(findUser)) {
             throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
         }

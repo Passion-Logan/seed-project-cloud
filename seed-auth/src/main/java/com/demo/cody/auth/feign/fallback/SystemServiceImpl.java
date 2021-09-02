@@ -34,13 +34,13 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public SysUser findByUsername(String userName) {
-        log.error("feign 调用用户查询{},信息:{}", userName, throwable.getLocalizedMessage());
+        log.error("feign 调用用户查询失败,信息:{}", throwable.getLocalizedMessage());
         return null;
     }
 
     @Override
     public List<String> getPermissionsByUserId(String userId) {
-        log.error("feign 调用权限查询{},信息:{}", userId, throwable.getLocalizedMessage());
+        log.error("feign 调用权限查询失败,信息:{}", throwable.getLocalizedMessage());
         return null;
     }
 }

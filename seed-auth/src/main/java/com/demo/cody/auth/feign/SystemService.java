@@ -48,7 +48,7 @@ public interface SystemService {
      * @param userId userId
      * @return
      */
-    @GetMapping("/sys/user/getPermissionsByUserId")
+    @GetMapping("/sys/menu/getPermissionsByUserId")
     List<String> getPermissionsByUserId(@RequestParam("userId") String userId);
 
 
