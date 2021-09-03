@@ -145,8 +145,8 @@ public class SysUserController {
 
     @GetMapping("/getByUserName")
     @ApiOperation(value = "根据用户名查找用户")
-    public SysUser findByUsername(@RequestParam("userName") String userName) {
-        return sysUserService.findByUsername(userName);
+    public Result<SysUser> findByUsername(@RequestParam("userName") String userName) {
+        return Result.ok(sysUserService.findByUsername(userName));
     }
 
     private void isUsername(String username) {

@@ -73,8 +73,7 @@ public class CustomUserService implements UserDetailsService {
         // TODO 用户权限查询
         //SysUser findUser = user.get(0);
 
-        Result a = systemService.test();
-        SysUser findUserFeigh = systemService.findByUsername(s);
+        Result<SysUser> findUserFeigh = systemService.findByUsername(s);
 
         SysUser findUser = new SysUser();
 

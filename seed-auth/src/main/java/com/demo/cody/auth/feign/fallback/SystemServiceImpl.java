@@ -33,7 +33,7 @@ public class SystemServiceImpl implements SystemService {
     }
 
     @Override
-    public SysUser findByUsername(String userName) {
+    public Result<SysUser> findByUsername(String userName) {
         log.error("feign 调用用户查询失败,信息:{}", throwable.getLocalizedMessage());
         return null;
     }
