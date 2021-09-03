@@ -40,7 +40,7 @@ public interface SystemService {
      * @return SysUser SysUser
      */
     @GetMapping("/sys/user/getByUserName")
-    Result<SysUser> findByUsername(@RequestParam("userName") String userName);
+    SysUser findByUsername(@RequestParam("userName") String userName);
 
     @GetMapping("/test/user")
     Result test();
