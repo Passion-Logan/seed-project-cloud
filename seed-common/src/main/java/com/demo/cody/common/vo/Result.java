@@ -5,17 +5,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * @Description: 接口返回数据格式
  * @date: 2020年06月16日 16:16
  */
 @Data
 @ApiModel(value = "接口返回对象", description = "接口返回对象")
-public class Result<T> implements Serializable {
-
-    private static final long serialVersion = 1L;
+public class Result<T> {
 
     /**
      * 成功标志
@@ -50,17 +46,12 @@ public class Result<T> implements Serializable {
     @ApiModelProperty(value = "时间戳")
     private long timestamp = System.currentTimeMillis();
 
-    public Result() {
-
-    }
-
-    public Result<T> success(String message) {
+    public Result success(String message) {
         this.message = message;
         this.code = CommonConstant.SC_OK_200;
         this.success = true;
         return this;
     }
-
 
     public static <T> Result<T> ok() {
         Result<T> r = new Result<>();
@@ -107,7 +98,7 @@ public class Result<T> implements Serializable {
         return r;
     }
 
-    public Result<T> error500(String message) {
+    public Result error500(String message) {
         this.message = message;
         this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
         this.success = false;

@@ -1,18 +1,15 @@
 package com.demo.cody.auth.service.security;
 
-import cn.hutool.core.util.IdUtil;
 import com.demo.cody.auth.constant.MessageConstant;
 import com.demo.cody.auth.entity.SecurityUser;
 import com.demo.cody.auth.feign.SystemService;
-import com.demo.cody.common.entity.SysLoginLog;
 import com.demo.cody.common.entity.SysUser;
+import com.demo.cody.common.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -78,10 +73,12 @@ public class CustomUserService implements UserDetailsService {
         // TODO 用户权限查询
         //SysUser findUser = user.get(0);
 
-        SysUser findUser = systemService.findByUsername(s);
+        Result a = systemService.test();
+        SysUser findUserFeigh = systemService.findByUsername(s);
 
-        log.info(" ========={}", findUser);
+        SysUser findUser = new SysUser();
 
+        log.info(" ========={}", findUserFeigh);
         if (Objects.isNull(findUser)) {
             throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
         }

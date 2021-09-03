@@ -1,9 +1,9 @@
 package com.demo.cody.system.controller;
 
 import com.demo.cody.common.vo.Result;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author wql
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @lastUpdateDesc
  * @lastUpdateTime 2021/7/22
  */
-@RestController
+@Controller
 @RequestMapping("test")
 public class TestController {
 
