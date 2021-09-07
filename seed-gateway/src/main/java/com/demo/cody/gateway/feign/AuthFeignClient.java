@@ -1,6 +1,6 @@
-package com.demo.cody.gateway.feigh;
+package com.demo.cody.gateway.feign;
 
-import com.demo.cody.gateway.feigh.fallback.AuthFeignClientFallback;
+import com.demo.cody.gateway.feign.factory.AuthFeignClientFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @lastUpdateDesc
  * @lastUpdateTime 2021/7/28
  */
-@FeignClient(name = "seed-auth", fallback = AuthFeignClientFallback.class)
+@FeignClient(contextId = "authFeignClient", value = "seed-auth", fallbackFactory = AuthFeignClientFactory.class)
 public interface AuthFeignClient {
 
     @GetMapping("/oauth/hasPermission")
