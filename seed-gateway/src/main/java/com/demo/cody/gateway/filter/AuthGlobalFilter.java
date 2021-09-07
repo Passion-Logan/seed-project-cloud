@@ -1,8 +1,8 @@
 package com.demo.cody.gateway.filter;
 
+import com.demo.cody.common.constant.AuthConstant;
 import com.demo.cody.gateway.config.IgnoreUrlsConfig;
 import com.demo.cody.gateway.feigh.AuthFeignClient;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -12,12 +12,12 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
@@ -54,6 +54,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String authentication = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        String token = request.getHeaders().getFirst(AuthConstant.TOKEN);
         String method = request.getMethodValue();
         String url = request.getPath().value();
         log.debug("url:{},method:{},headers:{}", url, method, request.getHeaders());
@@ -68,7 +69,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         if (authFeignClient.permission(authentication, url, method)) {
             ServerHttpRequest.Builder builder = request.mutate();
             //将jwt token中的用户信息传给服务 TODO 可以构建一个security放入以便其他服务调用
-            builder.header(X_CLIENT_TOKEN_USER, authentication);
+            builder.header(AuthConstant.TOKEN, authentication);
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
         return unauthorized(exchange);
@@ -84,7 +85,9 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         return Mono.defer(() -> Mono.just(serverWebExchange.getResponse()))
                 .flatMap(response -> {
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
-                    String body = "{\"code\":401,\"msg\":\"token不合法或过期\"}";
+                    HttpHeaders headers = response.getHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    String body = "{\"code\":401,\"message\":\"token不合法或过期\"}";
                     DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
                     return response.writeWith(Mono.just(buffer))
                             .doOnError(error -> DataBufferUtils.release(buffer));

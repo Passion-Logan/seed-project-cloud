@@ -61,6 +61,9 @@ public class AuthController {
     @ApiOperation("Oauth2获取token")
     @PostMapping("/token")
     public Result<Oauth2TokenDto> login(Principal principal, @RequestParam Map<String, String> parameters, HttpServletRequest request) throws HttpRequestMethodNotSupportedException {
+
+        // todo: 网关验证码校验
+
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         Oauth2TokenDto dto = Oauth2TokenDto.builder()
                 .token(Objects.requireNonNull(oAuth2AccessToken).getValue())

@@ -42,14 +42,11 @@ public interface SystemService {
     @GetMapping("/sys/user/getByUserName")
     SysUser findByUsername(@RequestParam("userName") String userName);
 
-    @GetMapping("/test/user")
-    Result test();
-
     /**
      * 根据用户id查询用户权限
      *
      * @param userId userId
-     * @return
+     * @return String
      */
     @GetMapping("/sys/menu/getPermissionsByUserId")
     List<String> getPermissionsByUserId(@RequestParam("userId") String userId);

@@ -39,12 +39,6 @@ public class SystemServiceImpl implements SystemService {
     }
 
     @Override
-    public Result test() {
-        log.error("feign 调用test失败,信息:{}", throwable.getLocalizedMessage());
-        return null;
-    }
-
-    @Override
     public List<String> getPermissionsByUserId(String userId) {
         log.error("feign 调用权限查询失败,信息:{}", throwable.getLocalizedMessage());
         return null;

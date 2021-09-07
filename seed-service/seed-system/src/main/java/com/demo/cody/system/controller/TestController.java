@@ -1,6 +1,5 @@
 package com.demo.cody.system.controller;
 
-import com.demo.cody.common.vo.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
 
     @GetMapping("user")
-    public Result test() {
-        return Result.ok("可以了");
+    public String test() {
+        return "可以了";
     }
 
 }

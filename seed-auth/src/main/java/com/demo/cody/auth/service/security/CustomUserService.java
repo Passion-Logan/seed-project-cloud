@@ -4,13 +4,11 @@ import com.demo.cody.auth.constant.MessageConstant;
 import com.demo.cody.auth.entity.SecurityUser;
 import com.demo.cody.auth.feign.SystemService;
 import com.demo.cody.common.entity.SysUser;
-import com.demo.cody.common.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * ClassName: CustomUserService
@@ -73,18 +70,16 @@ public class CustomUserService implements UserDetailsService {
         // TODO 用户权限查询
         //SysUser findUser = user.get(0);
 
-        SysUser findUserFeigh = systemService.findByUsername(s);
-
-        SysUser findUser = new SysUser();
-
-        log.info(" ========={}", findUserFeigh);
+        SysUser findUser = systemService.findByUsername(s);
+        log.info(" ========={}", findUser);
         if (Objects.isNull(findUser)) {
             throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
         }
-        List<String> permissions = systemService.getPermissionsByUserId(findUser.getId());
-        log.info("用户权限标识 permissions = {}", permissions);
-        List<SimpleGrantedAuthority> grantedAuthorities = permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-        SecurityUser securityUser = new SecurityUser(findUser, grantedAuthorities);
+
+//        List<String> permissions = systemService.getPermissionsByUserId(findUser.getId());
+//        log.info("用户权限标识 permissions = {}", permissions);
+//        List<SimpleGrantedAuthority> grantedAuthorities = permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        SecurityUser securityUser = new SecurityUser(findUser);
 
         if (!securityUser.getEnabled()) {
             throw new DisabledException(MessageConstant.ACCOUNT_DISABLED);

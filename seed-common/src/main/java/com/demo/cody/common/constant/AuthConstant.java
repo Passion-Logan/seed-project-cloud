@@ -48,6 +48,11 @@ public interface AuthConstant {
     String USER_TOKEN_HEADER = "user";
 
     /**
+     * 用户token
+     */
+    String TOKEN = "token";
+
+    /**
      * 服务间调用token用户信息,格式为json
      * {
      * "user_name":"必须有"
