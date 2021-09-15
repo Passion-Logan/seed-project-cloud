@@ -34,7 +34,7 @@
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
         <commons.version>2.6</commons.version>
-        <hutool.version>5.4.0</hutool.version>
+        <hutool.version>5.4.2</hutool.version>
         <admin-starter-server.version>2.2.3</admin-starter-server.version>
 <!--        <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>-->
     </properties>
