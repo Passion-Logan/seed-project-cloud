@@ -38,7 +38,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Resource
     private SysUserMapper sysUserMapper;
     @Resource
-    private ISysUserRoleService sysuserRoleservice;
+    private ISysUserRoleService sysUserRoleService;
     @Resource
     private ISysMenuService sysMenuService;
 
@@ -63,7 +63,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             //添加用户角色
             List<SysUserRole> list = new ArrayList<>();
             insertUserRole(roleId, user, list);
-            sysuserRoleservice.saveBatch(list);
+            sysUserRoleService.saveBatch(list);
         }
         return true;
     }
@@ -90,13 +90,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             //先删除用户角色信息
             SysUserRole userRoleDTO = new SysUserRole();
             userRoleDTO.setUserId(user.getId());
-            sysuserRoleservice.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, user.getId()));
+            sysUserRoleService.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, user.getId()));
 
             String[] roleId = selectedRoles.split(",");
             //再添加用户角色
             List<SysUserRole> list = new ArrayList<>();
             insertUserRole(roleId, user, list);
-            sysuserRoleservice.saveBatch(list);
+            sysUserRoleService.saveBatch(list);
         }
 
         return true;

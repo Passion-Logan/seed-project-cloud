@@ -109,10 +109,11 @@ public class AuthController {
         String ip = IPUtilsPro.getIpAddr(request);
         String browser = IPUtilsPro.getBrowser(request);
         String operatingSystem = IPUtilsPro.getOperatingSystem(request);
+        String cityInfo = IPUtilsPro.getCityInfo(ip);
 
         poolExecutor.execute(() -> {
             SysLoginLog build = SysLoginLog.builder().loginName(username).ip(ip).browser(browser).os(operatingSystem)
-                    .status(0).loginTime(LocalDateTime.now()).build();
+                    .loginLocation(cityInfo).status(0).loginTime(LocalDateTime.now()).build();
 
             systemService.insertLog(build);
         });

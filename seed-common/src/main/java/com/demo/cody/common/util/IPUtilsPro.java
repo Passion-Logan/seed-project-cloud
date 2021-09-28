@@ -37,13 +37,16 @@ public class IPUtilsPro {
         try {
             String path = "ip2region/ip2region.db";
             String name = "ip2region.db";
+
             DbConfig config = new DbConfig();
             File file = FileUtil.inputStreamToFile(new ClassPathResource(path).getInputStream(), name);
             searcher = new DbSearcher(config, file.getPath());
+
             Method method;
             method = searcher.getClass().getMethod("btreeSearch", String.class);
             DataBlock dataBlock;
             dataBlock = (DataBlock) method.invoke(searcher, ip);
+            System.out.println(dataBlock.getRegion());
             String address = dataBlock.getRegion().replace("0|", "");
             char symbol = '|';
             if (address.charAt(address.length() - 1) == symbol) {
@@ -141,9 +144,10 @@ public class IPUtilsPro {
         return "127.0.0.1";
     }
 
+
     public static void main(String[] args) {
-        //测试ip to 地区
-        System.out.println(getCityInfo("123.125.71.38"));
+        //测试ip to 地区  123.125.71.38
+        System.out.println(getCityInfo("111.9.27.132"));
     }
 
 }
