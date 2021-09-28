@@ -40,7 +40,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
     private static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
 
-    @Autowired
+    @Resource
     private IgnoreUrlsConfig ignoreUrlsConfig;
     @Resource
     private AuthFeignClient authFeignClient;

@@ -17,6 +17,7 @@
 #            - Path=/auth/**
 #          filters:
 #            - StripPrefix=1 # 移除前缀 seed-auth
+#            - name: CaptchaFilter
 #        - id: seed-system
 #          uri: lb://seed-system
 #          predicates:

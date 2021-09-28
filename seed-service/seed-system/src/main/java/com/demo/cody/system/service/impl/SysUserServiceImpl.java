@@ -1,26 +1,28 @@
 package com.demo.cody.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.demo.cody.common.constant.StringConstant;
 import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.entity.SysUserRole;
 import com.demo.cody.common.exception.CustomExecption;
+import com.demo.cody.common.util.BeanUtil;
+import com.demo.cody.common.util.MD5;
 import com.demo.cody.common.vo.system.request.SysUserQueryVO;
 import com.demo.cody.common.vo.system.response.SysUserResponseVO;
 import com.demo.cody.system.mapper.SysUserMapper;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysUserRoleService;
 import com.demo.cody.system.service.ISysUserService;
-import com.demo.cody.common.util.BeanUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,39 +32,34 @@ import java.util.List;
  * @date: 2020年06月16日 18:21
  */
 @Service
+@Slf4j
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysUserServiceImpl.class);
-
-    @Autowired
+    @Resource
     private SysUserMapper sysUserMapper;
-
-    @Autowired
+    @Resource
     private ISysUserRoleService sysuserRoleservice;
-
-    @Autowired
+    @Resource
     private ISysMenuService sysMenuService;
 
     /**
      * 新增用户
      *
-     * @param user
-     * @param selectedRoles
-     * @return
+     * @param user          user
+     * @param selectedRoles selectedRoles
+     * @return boolean
      */
     @Override
     public boolean insertUser(SysUser user, String selectedRoles) {
         //加密用户密码
-        // TODO 远程调用auth模块的加密
-        //String encrypt = new BCryptPasswordEncoder().encode(MD5.md5(user.getPassword()));
-        String encrypt = "";
+        String encrypt = new BCryptPasswordEncoder().encode(MD5.md5(user.getPassword()));
         user.setPassword(encrypt);
         //添加用户
         SysUser entity = BeanUtil.convert(user, SysUser.class);
         sysUserMapper.insert(entity);
 
         if (!StringUtils.isBlank(selectedRoles)) {
-            String[] roleId = selectedRoles.split(",");
+            String[] roleId = selectedRoles.split(StringConstant.COMMA);
             //添加用户角色
             List<SysUserRole> list = new ArrayList<>();
             insertUserRole(roleId, user, list);
@@ -79,9 +76,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 更新用户
      *
-     * @param user
-     * @param selectedRoles
-     * @return
+     * @param user          user
+     * @param selectedRoles selectedRoles
+     * @return boolean
      */
     @Override
     public boolean updateUser(SysUser user, String selectedRoles) {
@@ -93,9 +90,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             //先删除用户角色信息
             SysUserRole userRoleDTO = new SysUserRole();
             userRoleDTO.setUserId(user.getId());
-            QueryWrapper wrapper = new QueryWrapper<SysUserRole>();
-            wrapper.eq("user_id", user.getId());
-            sysuserRoleservice.remove(wrapper);
+            sysuserRoleservice.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, user.getId()));
 
             String[] roleId = selectedRoles.split(",");
             //再添加用户角色
@@ -110,9 +105,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 批量更新用户部门id
      *
-     * @param deptId
-     * @param userIdList
-     * @return
+     * @param deptId     boolean
+     * @param userIdList boolean
+     * @return boolean
      */
     @Override
     public boolean updateDeptIdByUserIds(String deptId, List<String> userIdList) {
@@ -122,9 +117,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 批量 更新用户状态
      *
-     * @param status
-     * @param ids
-     * @return
+     * @param status status
+     * @param ids    ids
+     * @return boolean
      */
     @Override
     public boolean frozenBatch(boolean status, String ids) {
@@ -135,8 +130,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 删除用户部门关系
      *
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return boolean
      */
     @Override
     public boolean deleteUserDept(String userId) {
@@ -148,8 +143,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 批量删除用户部门关系
      *
-     * @param userIds
-     * @return
+     * @param userIds userIds
+     * @return boolean
      */
     @Override
     public boolean deleteUserDeptBatch(String userIds) {
@@ -160,8 +155,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 查询用户权限
      *
-     * @param userName
-     * @return
+     * @param userName userName
+     * @return List<SysMenu>
      */
     @Override
     public List<SysMenu> getUserNav(String userName) {
@@ -173,21 +168,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 查询用户信息
      *
-     * @param username
-     * @return
+     * @param username username
+     * @return SysUser
      */
     @Override
     public SysUser findByUsername(String username) {
-        SysUser user = sysUserMapper.findByName(username);
-        return user;
+        return sysUserMapper.findByName(username);
     }
 
     /**
      * 修改密码
      *
-     * @param userName
-     * @param password
-     * @return
+     * @param userName boolean
+     * @param password boolean
+     * @return boolean
      */
     @Override
     public boolean changePassword(String userName, String password) {
@@ -197,9 +191,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new CustomExecption("不存在此用户");
         }
         //加密用户密码
-        // TODO 密码加密
-        //String encrypt = new BCryptPasswordEncoder().encode(password);
-        String encrypt = "";
+        String encrypt = new BCryptPasswordEncoder().encode(password);
         userDO.setPassword(encrypt);
         return sysUserMapper.updateById(userDO) > 0;
     }

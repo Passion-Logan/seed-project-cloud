@@ -57,39 +57,6 @@ public class LoginController {
     private RedissonObject redissonObject;
 
     /**
-     * 登录接口
-     * 注意：如果使用此登录控制器触发登录认证，需要禁用登录认证过滤器，即将 WebSecurityConfig 中的以下配置项注释即可，
-     * http.addFilterBefore(new JwtLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-     * 否则访问登录接口会被过滤拦截，
-     * 执行不会再进入此登录接口，大家根据使用习惯二选一即可
-     */
-    /*@NoRepeatSubmit
-    @PostMapping(value = "/login")
-    public JwtAuthenticatioToken login(@RequestBody LoginRequestVO loginRequestVO, HttpServletRequest request) {
-        // 查询验证码
-        String code = redissonObject.getValue(loginRequestVO.getUuid());
-        // 清除验证码
-        redissonObject.delete(loginRequestVO.getUuid());
-        if (StringUtils.isBlank(code)) {
-            logger.error("验证码不存在或已过期");
-            throw new CustomExecption("验证码不存在或已过期");
-        }
-        if (StringUtils.isBlank(loginRequestVO.getImgCode()) || !loginRequestVO.getImgCode().equalsIgnoreCase(code)) {
-            logger.error("验证码错误");
-            throw new CustomExecption("验证码错误");
-        }
-        String username = loginRequestVO.getUsername();
-        String password = loginRequestVO.getPassword();
-
-        // 系统登录认证
-        JwtAuthenticatioToken token = SecurityUtils.login(request, username, password, authenticationManager);
-
-        //添加登录日志
-        insertLoginLog(loginRequestVO, request);
-        return token;
-    }*/
-
-    /**
      * 记录日志
      *
      * @param data data

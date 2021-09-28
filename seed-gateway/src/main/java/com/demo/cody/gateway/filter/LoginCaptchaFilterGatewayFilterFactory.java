@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.demo.cody.common.vo.Result;
 import com.demo.cody.gateway.utils.ServletUtils;
 import com.zengtengpeng.operation.RedissonObject;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -30,9 +31,10 @@ import java.util.Map;
  * @lastUpdateTime 2021/9/10
  */
 @Component
-public class LoginCaptchaFilterGatewayFilterFactory extends AbstractGatewayFilterFactory {
+@RequiredArgsConstructor
+public class LoginCaptchaFilterGatewayFilterFactory<C> extends AbstractGatewayFilterFactory<C> {
 
-    private final static String AUTH_URL = "/auth/oauth/token";
+    private final static String AUTH_URL = "/oauth/token";
 
     @Resource
     private RedissonObject redissonObject;
@@ -48,12 +50,10 @@ public class LoginCaptchaFilterGatewayFilterFactory extends AbstractGatewayFilte
             }
             if (HttpMethod.POST.matches(serverHttpRequest.getMethodValue())) {
                 Map<String, String> queryParamsMap = ServletUtils.getQueryParamsMap(exchange);
-
-
                 try {
                     String username = queryParamsMap.get("username");
                     String password = queryParamsMap.get("password");
-                    String code = queryParamsMap.get("code");
+                    String code = queryParamsMap.get("imgCode");
                     String uuid = queryParamsMap.get("uuid");
                     // 登陆校验
                     loginCheckPre(username, password, code, uuid);
@@ -65,34 +65,6 @@ public class LoginCaptchaFilterGatewayFilterFactory extends AbstractGatewayFilte
                     DataBuffer bodyDataBuffer = response.bufferFactory().wrap(msg.getBytes());
                     return response.writeWith(Mono.just(bodyDataBuffer));
                 }
-
-                /*try {
-                    String username = queryParamsMap.get("username");
-                    String password = queryParamsMap.get("password");
-                    String code = queryParamsMap.get("code");
-                    String uuid = queryParamsMap.get("uuid");
-                    // 登陆校验
-                    loginCheckPre(username, password, code, uuid);
-                } catch (Exception e) {
-                    ServerHttpResponse response = exchange.getResponse();
-                    response.setStatusCode(HttpStatus.OK);
-                    response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-                    String msg = JSON.toJSONString(Result.error(e.getMessage()));
-                    DataBuffer bodyDataBuffer = response.bufferFactory().wrap(msg.getBytes());
-                    return response.writeWith(Mono.just(bodyDataBuffer));
-                }
-                ServerHttpRequest request = serverHttpRequest.mutate().uri(uri).build();
-                DataBuffer bodyDataBuffer = ServletHttpHelper.transferBodyStrToDataBuffer(bodyStr);
-                Flux<DataBuffer> bodyFlux = Flux.just(bodyDataBuffer);
-                request = new ServerHttpRequestDecorator(request) {
-                    @Override
-                    public Flux<DataBuffer> getBody() {
-                        return bodyFlux;
-                    }
-                };
-                return chain.filter(exchange.mutate().request(request).build());*/
-
-
             }
             return chain.filter(exchange);
         };
@@ -105,9 +77,8 @@ public class LoginCaptchaFilterGatewayFilterFactory extends AbstractGatewayFilte
      * @param password 密码
      * @param code     验证码
      * @param uuid     随机数
-     * @throws Exception
      */
-    private void loginCheckPre(String username, String password, String code, String uuid) throws Exception {
+    private void loginCheckPre(String username, String password, String code, String uuid) {
         // 非空
         if (StringUtils.isBlank(username)) {
             throw new RuntimeException("用户名不能为空");
@@ -134,4 +105,13 @@ public class LoginCaptchaFilterGatewayFilterFactory extends AbstractGatewayFilte
         }
     }
 
+    /**
+     * 对应yml中的name配置
+     *
+     * @return String
+     */
+    @Override
+    public String name() {
+        return "CaptchaFilter";
+    }
 }
