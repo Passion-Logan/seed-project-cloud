@@ -6,7 +6,7 @@ import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysRole;
 import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.util.BeanUtil;
-import com.demo.cody.common.util.SecurityUtils;
+import com.demo.cody.common.security.SecurityUtils;
 import com.demo.cody.common.vo.Result;
 import com.demo.cody.common.vo.system.response.MenuResponseVO;
 import com.demo.cody.common.vo.system.response.SysRoleResponseVO;

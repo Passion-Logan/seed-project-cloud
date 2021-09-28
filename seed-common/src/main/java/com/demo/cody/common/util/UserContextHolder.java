@@ -1,7 +1,5 @@
 package com.demo.cody.common.util;
 
-import com.google.common.collect.Maps;
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -63,9 +61,9 @@ public class UserContextHolder {
      *
      * @return
      */
-    public String getUsername() {
+    /*public String getUsername() {
         return Optional.ofNullable(threadLocal.get()).orElse(Maps.newHashMap()).get("user_name");
-    }
+    }*/
 
     /**
      * 清空上下文

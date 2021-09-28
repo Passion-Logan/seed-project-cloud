@@ -1,8 +1,10 @@
-package com.demo.cody.common.util;
+package com.demo.cody.common.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Description: Security相关操作
@@ -13,12 +15,12 @@ public class SecurityUtils {
     /**
      * 获取令牌进行认证
      */
-    /*public static void checkAuthentication(HttpServletRequest request) {
+    public static void checkAuthentication(HttpServletRequest request) {
         // 获取令牌并根据令牌获取的登录信息
         Authentication authentication = JwtTokenUtils.getAuthenticationeFromToken(request);
         // 设置登陆信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
-    }*/
+    }
 
     /**
      * 获取用户名

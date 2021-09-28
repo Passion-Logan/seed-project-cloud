@@ -36,7 +36,7 @@
         <commons.version>2.6</commons.version>
         <hutool.version>5.4.2</hutool.version>
         <admin-starter-server.version>2.2.3</admin-starter-server.version>
-<!--        <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>-->
+<!--    <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>-->
     </properties>
 
     <dependencies>
@@ -67,28 +67,28 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.9.3</version>
+            <version>1.9.6</version>
         </dependency>
         <!-- # 增加两个配置解决 NumberFormatException -->
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.5.22</version>
+            <version>1.6.2</version>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
-            <version>1.5.22</version>
+            <version>1.6.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -98,7 +98,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.69</version>
+            <version>1.2.78</version>
         </dependency>
         <!-- commons -->
         <dependency>
