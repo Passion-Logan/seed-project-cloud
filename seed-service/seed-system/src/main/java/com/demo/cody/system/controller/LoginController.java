@@ -5,8 +5,8 @@ import com.demo.cody.common.entity.SysLoginLog;
 import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysRole;
 import com.demo.cody.common.entity.SysUser;
+import com.demo.cody.common.security.JwtTokenUtils;
 import com.demo.cody.common.util.BeanUtil;
-import com.demo.cody.common.security.SecurityUtils;
 import com.demo.cody.common.vo.Result;
 import com.demo.cody.common.vo.system.response.MenuResponseVO;
 import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
@@ -137,8 +137,9 @@ public class LoginController {
     public SysUserInfoResponseVO getUserInfo() {
         //查询用户信息
         SysUser userDTO = new SysUser();
-        userDTO.setUserName(SecurityUtils.getUsername());
-        SysUser user = sysUserService.findByUsername(SecurityUtils.getUsername());
+        String name = JwtTokenUtils.getUsernameFromToken();
+        userDTO.setUserName(name);
+        SysUser user = sysUserService.findByUsername(name);
         SysUserInfoResponseVO responseVo = BeanUtil.convert(user, SysUserInfoResponseVO.class);
 
         //查询角色信息
@@ -162,7 +163,7 @@ public class LoginController {
     @GetMapping(value = "/user/nav")
     public Map<String, Object> getUserNav() {
         Map<String, Object> result = new HashMap<>(2);
-        List<SysMenu> list = sysUserService.getUserNav(SecurityUtils.getUsername());
+        List<SysMenu> list = sysUserService.getUserNav(JwtTokenUtils.getUsernameFromToken());
         List<MenuResponseVO> menuPid = getByPid(list, "0");
 
         if (menuPid.size() > 0) {

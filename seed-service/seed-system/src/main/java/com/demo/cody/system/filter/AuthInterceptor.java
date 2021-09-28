@@ -1,6 +1,5 @@
 package com.demo.cody.system.filter;
 
-import com.demo.cody.common.security.SecurityUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -30,7 +29,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             String value = request.getHeader(key);
             map.put(key, value);
         }
-        SecurityUtils.checkAuthentication(request);
         //返回true通过，返回false拦截
         return true;
     }
