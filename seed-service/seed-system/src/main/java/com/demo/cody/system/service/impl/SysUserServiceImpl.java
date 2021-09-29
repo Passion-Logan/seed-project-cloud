@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.cody.common.constant.StringConstant;
 import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.entity.SysUserRole;
 import com.demo.cody.common.exception.CustomExecption;
 import com.demo.cody.common.util.BeanUtil;
 import com.demo.cody.common.util.MD5;
+import com.demo.cody.common.vo.system.request.SysUserPwdVO;
 import com.demo.cody.common.vo.system.request.SysUserQueryVO;
 import com.demo.cody.common.vo.system.response.SysUserResponseVO;
 import com.demo.cody.system.mapper.SysUserMapper;
@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Description: TODO
@@ -59,7 +60,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserMapper.insert(entity);
 
         if (!StringUtils.isBlank(selectedRoles)) {
-            String[] roleId = selectedRoles.split(StringConstant.COMMA);
+            String[] roleId = selectedRoles.split(",");
             //添加用户角色
             List<SysUserRole> list = new ArrayList<>();
             insertUserRole(roleId, user, list);
@@ -90,6 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             //先删除用户角色信息
             SysUserRole userRoleDTO = new SysUserRole();
             userRoleDTO.setUserId(user.getId());
+
             sysUserRoleService.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, user.getId()));
 
             String[] roleId = selectedRoles.split(",");
@@ -105,8 +107,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 批量更新用户部门id
      *
-     * @param deptId     boolean
-     * @param userIdList boolean
+     * @param deptId     deptId
+     * @param userIdList userIdList
      * @return boolean
      */
     @Override
@@ -169,22 +171,26 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 查询用户信息
      *
      * @param username username
+     * @param id       id
      * @return SysUser
      */
     @Override
-    public SysUser findByUsername(String username) {
-        return sysUserMapper.findByName(username);
+    public SysUser findByUsername(String username, Long id) {
+        return sysUserMapper.selectOne(Wrappers.<SysUser>lambdaQuery()
+                .ne(Objects.nonNull(id), SysUser::getId, id)
+                .eq(SysUser::getUserName, username)
+        );
     }
 
     /**
      * 修改密码
      *
-     * @param userName boolean
-     * @param password boolean
-     * @return boolean
+     * @param userName userName
+     * @param password password
+     * @return Boolean
      */
     @Override
-    public boolean changePassword(String userName, String password) {
+    public Boolean changePassword(String userName, String password) {
         //查询用户信息
         SysUser userDO = sysUserMapper.findByName(userName);
         if (userDO == null) {
@@ -196,10 +202,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return sysUserMapper.updateById(userDO) > 0;
     }
 
+    @Override
+    public Boolean verifyPassword(SysUserPwdVO vo, Long userId) {
+        SysUser byId = this.getById(userId);
+        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        if (!encode.matches(vo.getOldPwd(), byId.getPassword())) {
+            throw new CustomExecption("旧密码错误");
+        }
+        byId.setPassword(encode.encode(vo.getNewPwd()));
+        return this.updateById(byId);
+    }
+
     private void insertUserRole(String[] roleId, SysUser user, List<SysUserRole> list) {
         for (String id : roleId) {
             SysUserRole role = new SysUserRole();
-            role.setRoleId(id);
+            role.setRoleId(Long.parseLong(id));
             role.setUserId(user.getId());
             list.add(role);
         }

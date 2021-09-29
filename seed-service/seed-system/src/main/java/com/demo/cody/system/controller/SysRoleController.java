@@ -66,7 +66,7 @@ public class SysRoleController {
     @ApiOperation(value = "添加角色")
     @PostMapping("addRole")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> addRole(@RequestBody @Valid SysRole role) {
+    public Result<Void> addRole(@RequestBody @Valid SysRole role) {
         roleService.save(role);
         return Result.ok();
     }
@@ -74,7 +74,7 @@ public class SysRoleController {
     @ApiOperation(value = "编辑角色")
     @PutMapping("updateRole")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> updateRole(@RequestBody @Valid SysRole user) {
+    public Result<Void> updateRole(@RequestBody @Valid SysRole user) {
         roleService.updateById(user);
         return Result.ok();
     }
@@ -82,15 +82,15 @@ public class SysRoleController {
     @ApiOperation(value = "删除角色")
     @DeleteMapping("removeRole")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> removeRole(@RequestBody JSONObject object) {
+    public Result<Void> removeRole(@RequestBody JSONObject object) {
         roleService.removeByIds(Arrays.asList(object.getString("ids").split(",")));
         return Result.ok();
     }
 
     @ApiOperation(value = "保存角色授权")
     @PutMapping("saveRolePermission")
-    public Result<String> saveRolePermission(@RequestBody JSONObject json) {
-        String roleId = json.getString("roleId");
+    public Result<Void> saveRolePermission(@RequestBody JSONObject json) {
+        Long roleId = json.getLong("roleId");
         String permissionIds = json.getString("permissionIds");
         roleMenuService.saveRolePermission(roleId, permissionIds);
         return Result.ok();

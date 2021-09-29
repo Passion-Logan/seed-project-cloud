@@ -4,32 +4,32 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.cody.common.entity.SysRole;
+import com.demo.cody.common.util.BeanUtil;
 import com.demo.cody.common.vo.system.request.SysRoleQueryVO;
 import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
 import com.demo.cody.system.mapper.SysRoleMapper;
 import com.demo.cody.system.service.ISysRoleService;
-import com.demo.cody.common.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 @Slf4j
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
-    @Autowired
+    @Resource
     private SysRoleMapper roleMapper;
 
     /**
      * 查询用户角色
      *
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return SysRole
      */
     @Override
-    public List<SysRole> getRolesByUserId(String userId) {
+    public List<SysRole> getRolesByUserId(Long userId) {
         List<SysRole> list = roleMapper.getRolesByUserId(userId);
         return BeanUtil.convert(list, SysRole.class);
     }

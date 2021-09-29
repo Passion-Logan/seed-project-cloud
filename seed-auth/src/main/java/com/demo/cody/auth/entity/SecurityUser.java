@@ -51,7 +51,7 @@ public class SecurityUser implements UserDetails {
     private Collection<SimpleGrantedAuthority> authorities;
 
     public SecurityUser(SysUser sysUser) {
-        this.setId(sysUser.getId());
+        this.setId(sysUser.getId().toString());
         this.setUsername(sysUser.getUserName());
         this.setPassword(sysUser.getPassword());
         this.setEnabled(sysUser.getEnabled());

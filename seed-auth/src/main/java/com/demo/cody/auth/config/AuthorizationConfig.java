@@ -95,7 +95,6 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Bean
     public TokenStore tokenStore() {
-//        return new JwtTokenStore(jwtAccessTokenConverter());
         return new RedisTokenStore(redisConnectionFactory);
     }
 

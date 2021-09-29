@@ -9,8 +9,7 @@ import com.demo.cody.common.security.JwtTokenUtils;
 import com.demo.cody.common.util.BeanUtil;
 import com.demo.cody.common.vo.Result;
 import com.demo.cody.common.vo.system.response.MenuResponseVO;
-import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
-import com.demo.cody.common.vo.system.response.SysUserInfoResponseVO;
+import com.demo.cody.common.vo.system.response.UserInfoResponseVO;
 import com.demo.cody.system.service.ISysLoginLogService;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysRoleService;
@@ -23,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -94,6 +94,30 @@ public class LoginController {
         return Result.ok(imgResult);
     }
 
+    @PostMapping("/user/uploadAvatar")
+    public Result<Void> uploadAvatar(HttpServletRequest request) {
+        /*String savePath;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile file = multipartRequest.getFile("file");// 获取上传文件对象
+
+        String bizPath = request.getParameter("biz");
+        if (oConvertUtils.isEmpty(bizPath)) {
+            bizPath = CommonConstant.UPLOAD_TYPE_OSS.equals(uploadType) ? "upload" : "";
+        }
+
+        if (CommonConstant.UPLOAD_TYPE_LOCAL.equals(uploadType)) {
+            savePath = this.uploadLocal(file, bizPath);
+        } else {
+            savePath = sysBaseAPI.upload(file, bizPath, uploadType);
+        }
+
+        if (StrUtil.isNotBlank(savePath)) {
+            return Result.ok(savePath);
+        }
+        return Result.error("上传失败!");*/
+        return Result.ok("/12312/321");
+    }
+
     /**
      * 登录用户信息
      *
@@ -101,24 +125,17 @@ public class LoginController {
      */
     @ApiOperation("登录用户信息")
     @GetMapping(value = "/user/info")
-    public SysUserInfoResponseVO getUserInfo() {
+    public Result<UserInfoResponseVO> getUserInfo() {
         //查询用户信息
-        SysUser userDTO = new SysUser();
-        String name = JwtTokenUtils.getUsernameFromToken();
-        userDTO.setUserName(name);
-        SysUser user = sysUserService.findByUsername(name);
-        SysUserInfoResponseVO responseVo = BeanUtil.convert(user, SysUserInfoResponseVO.class);
+        SysUser user = sysUserService.findByUsername(JwtTokenUtils.getUsernameFromToken(), null);
+        UserInfoResponseVO responseVo = BeanUtil.convert(user, UserInfoResponseVO.class);
 
         //查询角色信息
         List<SysRole> roles = roleService.getRolesByUserId(user.getId());
-        List<SysRoleResponseVO> roleList = BeanUtil.convert(roles, SysRoleResponseVO.class);
-        Objects.requireNonNull(responseVo).setRoles(roleList);
+        String[] role = roles.stream().map(SysRole::getRoleName).toArray(String[]::new);
+        Objects.requireNonNull(responseVo).setRoles(role);
 
-        //查询角色权限信息
-        List<String> permissions = sysMenuService.getPermissionsByUserId(user.getId());
-        responseVo.setPermissions(permissions);
-
-        return responseVo;
+        return Result.ok(responseVo);
     }
 
     /**
@@ -131,7 +148,7 @@ public class LoginController {
     public Map<String, Object> getUserNav() {
         Map<String, Object> result = new HashMap<>(2);
         List<SysMenu> list = sysUserService.getUserNav(JwtTokenUtils.getUsernameFromToken());
-        List<MenuResponseVO> menuPid = getByPid(list, "0");
+        List<MenuResponseVO> menuPid = getByPid(list, Long.valueOf("0"));
 
         if (menuPid.size() > 0) {
             for (MenuResponseVO menu : menuPid) {
@@ -143,7 +160,7 @@ public class LoginController {
         return result;
     }
 
-    private List<MenuResponseVO> getByPid(List<SysMenu> list, String pid) {
+    private List<MenuResponseVO> getByPid(List<SysMenu> list, Long pid) {
         return list.stream().filter(item -> pid.equals(item.getPid())).map(item -> MenuResponseVO.builder()
                 .id(item.getId())
                 .name(item.getMenu())

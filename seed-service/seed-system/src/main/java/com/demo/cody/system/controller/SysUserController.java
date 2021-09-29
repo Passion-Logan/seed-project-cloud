@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.demo.cody.common.aspect.annotation.AutoLog;
 import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.entity.SysUserRole;
 import com.demo.cody.common.exception.CustomExecption;
@@ -50,7 +51,6 @@ public class SysUserController {
 
     @Resource
     private ISysUserService sysUserService;
-
     @Resource
     private ISysUserRoleService sysUserRoleService;
 
@@ -63,11 +63,12 @@ public class SysUserController {
         return Result.ok(data.getRecords(), (int) data.getTotal());
     }
 
+    @AutoLog(value = "添加用户", operateType = 2)
     @ApiOperation(value = "添加用户")
     @PostMapping("addUser")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> addUser(@RequestBody @Valid SysUserRoleRequestVO user) {
-        isUsername(user.getUserName());
+    public Result<Void> addUser(@RequestBody @Valid SysUserRoleRequestVO user) {
+        isUsername(user.getUserName(), null);
         SysUser entity = new SysUser();
         BeanUtils.copyProperties(user, entity);
 
@@ -75,14 +76,9 @@ public class SysUserController {
         entity.setPassword(encrypt);
         sysUserService.save(entity);
 
-        String userId = entity.getId();
-        if (StrUtil.isNotBlank(user.getRoleIds())) {
-            String[] ids = splitIds(user.getRoleIds());
-            List<SysUserRole> userRoles = new ArrayList<>(ids.length);
-            for (String id : ids) {
-                userRoles.add(SysUserRole.builder().userId(userId).roleId(id).build());
-            }
-            sysUserRoleService.saveBatch(userRoles);
+        Long userId = entity.getId();
+        if (StrUtil.isNotEmpty(user.getRoleIds())) {
+            updateUserRole(user.getRoleIds(), userId);
         }
 
         return Result.ok();
@@ -91,37 +87,42 @@ public class SysUserController {
     @ApiOperation(value = "编辑用户")
     @PutMapping("updateUser")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> updateUser(@RequestBody @Valid SysUserRoleRequestVO user) {
-        isUsername(user.getUserName());
+    public Result<Void> editUser(@RequestBody @Valid SysUserRoleRequestVO user) {
+        isUsername(user.getUserName(), user.getId());
         SysUser entity = new SysUser();
         BeanUtils.copyProperties(user, entity);
 
         if (StrUtil.isNotEmpty(user.getRoleIds())) {
-            String userId = user.getId();
-            sysUserRoleService.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, user.getId()));
-            String[] ids = user.getRoleIds().split(",");
-            List<SysUserRole> userRoles = new ArrayList<>(ids.length);
-            for (String id : ids) {
-                userRoles.add(SysUserRole.builder().userId(userId).roleId(id).build());
-            }
-            sysUserRoleService.saveBatch(userRoles);
+            Long userId = user.getId();
+            sysUserRoleService.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, userId));
+            updateUserRole(user.getRoleIds(), userId);
         }
         sysUserService.updateById(entity);
         return Result.ok();
     }
 
+    private void updateUserRole(String roleIds, Long userId) {
+        String[] ids = roleIds.split(",");
+        List<SysUserRole> userRoles = new ArrayList<>(ids.length);
+        for (String id : ids) {
+            userRoles.add(SysUserRole.builder().userId(userId).roleId(Long.parseLong(id)).build());
+        }
+        sysUserRoleService.saveBatch(userRoles);
+    }
+
     @ApiOperation(value = "修改密码")
     @GetMapping("updatePassword")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> updatePassword(String userName, String password) {
+    public Result<Void> editPassword(String userName, String password) {
         sysUserService.changePassword(userName, password);
         return Result.ok();
     }
 
+    @AutoLog(value = "删除用户", operateType = 4)
     @ApiOperation(value = "删除用户")
     @DeleteMapping("removeUser")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> removeUser(@RequestBody JSONObject object) {
+    public Result<Void> deleteUser(@RequestBody JSONObject object) {
         List<String> ids = Arrays.asList(object.getString("ids").split(","));
         sysUserService.removeByIds(ids);
         sysUserRoleService.remove(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getUserId, ids));
@@ -132,31 +133,15 @@ public class SysUserController {
     @GetMapping("getUserRole")
     @ApiOperation(value = "获取用户角色")
     @DeleteMapping("getUserRole")
-    public Result<String[]> getUserRole(@ApiParam(name = "userId", value = "userId", required = true) @RequestParam(value = "userId") String userId) {
+    public Result<List<String>> getUserRole(@ApiParam(name = "userId", value = "userId", required = true) @RequestParam(value = "userId") String userId) {
         List<SysUserRole> userRoles = sysUserRoleService.list(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, userId));
-        List<String> roleList = userRoles.stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
-        String[] roleIds = new String[roleList.size()];
-
-        if (roleList.size() > 0) {
-            roleIds = roleList.toArray(new String[0]);
-        }
-        return Result.ok(roleIds);
+        List<String> roleList = userRoles.stream().map(m -> m.getRoleId().toString()).collect(Collectors.toList());
+        return Result.ok(roleList);
     }
 
-    @GetMapping("/getByUserName")
-    @ApiOperation(value = "根据用户名查找用户")
-    public SysUser findByUsername(@RequestParam("userName") String userName) {
-        return sysUserService.findByUsername(userName);
-    }
-
-    private void isUsername(String username) {
-        if (sysUserService.findByUsername(username) != null) {
+    private void isUsername(String username, Long id) {
+        if (sysUserService.findByUsername(username, id) != null) {
             throw new CustomExecption("账号已存在");
         }
     }
-
-    private String[] splitIds(String ids) {
-        return ids.split(",");
-    }
-
 }

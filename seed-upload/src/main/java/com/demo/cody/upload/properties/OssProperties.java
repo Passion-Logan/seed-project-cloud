@@ -2,6 +2,7 @@ package com.demo.cody.upload.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 /**
  * @author wql
@@ -12,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @lastUpdateTime 2021/9/29
  */
 @Data
-//@RefreshScope
+@RefreshScope
 @ConfigurationProperties(prefix = OssProperties.PREFIX)
 public class OssProperties {
 

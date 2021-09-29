@@ -1,5 +1,6 @@
 package com.demo.cody.common.vo.system.response;
 
+import com.demo.cody.common.aspect.annotation.Stringify;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,8 @@ import java.util.List;
 @Builder
 public class MenuResponseVO implements Serializable {
 
-    private String id;
+    @Stringify
+    private Long id;
     private String name;
     private String path;
     private String redirect;

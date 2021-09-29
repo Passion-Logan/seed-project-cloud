@@ -2,6 +2,8 @@ package com.demo.cody.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.demo.cody.common.aspect.annotation.Stringify;
+import com.demo.cody.common.entity.basic.SysBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,15 +18,10 @@ import java.util.Objects;
  * @date: 2020年06月16日 18:12
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysMenu implements Serializable {
+public class SysMenu extends SysBaseModel<SysMenu> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty("菜单ID")
-    @TableId(type = IdType.ID_WORKER_STR)
-    private String id;
 
     @ApiModelProperty("菜单名称")
     private String menu;
@@ -44,8 +41,9 @@ public class SysMenu implements Serializable {
     @ApiModelProperty("重定向")
     private String redirect;
 
+    @Stringify
     @ApiModelProperty("父级id")
-    private String pid;
+    private Long pid;
 
     @ApiModelProperty("类型:1目录,2菜单,3按钮")
     private Integer type;
@@ -68,11 +66,6 @@ public class SysMenu implements Serializable {
     @ApiModelProperty("备注")
     private String remark;
 
-    private String createBy;
-
-    private Date createTime;
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -88,7 +81,6 @@ public class SysMenu implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getMenu());
-
     }
 
 }

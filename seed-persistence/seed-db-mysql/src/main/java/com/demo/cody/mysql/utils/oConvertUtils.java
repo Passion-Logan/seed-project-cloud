@@ -1,18 +1,15 @@
-package com.demo.cody.common.util;
+package com.demo.cody.mysql.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.util.*;
@@ -267,57 +264,6 @@ public class oConvertUtils {
      */
     private static boolean isBaseDataType(Class clazz) throws Exception {
         return (clazz.equals(String.class) || clazz.equals(Integer.class) || clazz.equals(Byte.class) || clazz.equals(Long.class) || clazz.equals(Double.class) || clazz.equals(Float.class) || clazz.equals(Character.class) || clazz.equals(Short.class) || clazz.equals(BigDecimal.class) || clazz.equals(BigInteger.class) || clazz.equals(Boolean.class) || clazz.equals(Date.class) || clazz.isPrimitive());
-    }
-
-    /**
-     * @param request IP
-     * @return IP Address
-     */
-    public static String getIpAddrByRequest(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
-    /**
-     * @return 本机IP
-     * @throws SocketException
-     */
-    public static String getRealIp() throws SocketException {
-        String localip = null;// 本地IP，如果没有配置外网IP则返回它
-        String netip = null;// 外网IP
-
-        Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-        InetAddress ip = null;
-        boolean finded = false;// 是否找到外网IP
-        while (netInterfaces.hasMoreElements() && !finded) {
-            NetworkInterface ni = netInterfaces.nextElement();
-            Enumeration<InetAddress> address = ni.getInetAddresses();
-            while (address.hasMoreElements()) {
-                ip = address.nextElement();
-                if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
-                    netip = ip.getHostAddress();
-                    finded = true;
-                    break;
-                } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
-                    localip = ip.getHostAddress();
-                }
-            }
-        }
-
-        if (netip != null && !"".equals(netip)) {
-            return netip;
-        } else {
-            return localip;
-        }
     }
 
     private static final String PATTERN_STR = "\\s*|\t|\r|\n";

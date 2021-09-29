@@ -14,11 +14,10 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 查询用户角色
      *
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return SysRole
      */
-    List<SysRole> getRolesByUserId(String userId);
+    List<SysRole> getRolesByUserId(Long userId);
 
     IPage<SysRoleResponseVO> getList(Page<SysRoleResponseVO> page, SysRoleQueryVO query);
-
 }

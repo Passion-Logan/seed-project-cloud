@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 @ApiModel(value = "接口返回对象", description = "接口返回对象")
 public class Result<T> {
+    private static final long serialVersion = 1L;
 
     /**
      * 成功标志
@@ -46,12 +47,17 @@ public class Result<T> {
     @ApiModelProperty(value = "时间戳")
     private long timestamp = System.currentTimeMillis();
 
-    public Result success(String message) {
+    public Result() {
+
+    }
+
+    public Result<T> success(String message) {
         this.message = message;
         this.code = CommonConstant.SC_OK_200;
         this.success = true;
         return this;
     }
+
 
     public static <T> Result<T> ok() {
         Result<T> r = new Result<>();
@@ -98,7 +104,7 @@ public class Result<T> {
         return r;
     }
 
-    public Result error500(String message) {
+    public Result<T> error500(String message) {
         this.message = message;
         this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
         this.success = false;
@@ -108,7 +114,7 @@ public class Result<T> {
     /**
      * 无权限访问返回结果
      */
-    public static <T> Result<T> noauth(String msg) {
+    public static Result<Object> noauth(String msg) {
         return error(CommonConstant.SC_JEECG_NO_AUTHZ, msg);
     }
 }

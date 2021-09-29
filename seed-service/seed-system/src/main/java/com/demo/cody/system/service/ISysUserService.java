@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysUser;
+import com.demo.cody.common.vo.system.request.SysUserPwdVO;
 import com.demo.cody.common.vo.system.request.SysUserQueryVO;
 import com.demo.cody.common.vo.system.response.SysUserResponseVO;
 
@@ -15,85 +16,96 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 新增用户
      *
-     * @param user
-     * @param selectedRoles
-     * @return
+     * @param user          user
+     * @param selectedRoles selectedRoles
+     * @return boolean
      */
     boolean insertUser(SysUser user, String selectedRoles);
 
     /**
      * 获取列表
-     * @param page
-     * @param sysUserQueryVO
-     * @return
+     *
+     * @param page           page
+     * @param sysUserQueryVO sysUserQueryVO
+     * @return IPage<SysUserResponseVO>
      */
     IPage<SysUserResponseVO> getList(Page<SysUserResponseVO> page, SysUserQueryVO sysUserQueryVO);
 
     /**
      * 更新用户
      *
-     * @param user
-     * @param selectedRoles
-     * @return
+     * @param user          user
+     * @param selectedRoles selectedRoles
+     * @return boolean
      */
     boolean updateUser(SysUser user, String selectedRoles);
 
     /**
      * 批量更新用户部门id
      *
-     * @param deptId
-     * @param userIdList
-     * @return
+     * @param deptId     deptId
+     * @param userIdList userIdList
+     * @return boolean
      */
     boolean updateDeptIdByUserIds(String deptId, List<String> userIdList);
 
     /**
      * 批量 更新用户状态
      *
-     * @param status
-     * @param ids
-     * @return
+     * @param status status
+     * @param ids    ids
+     * @return boolean
      */
     boolean frozenBatch(boolean status, String ids);
 
     /**
      * 删除用户部门关系
      *
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return boolean
      */
     boolean deleteUserDept(String userId);
 
     /**
      * 批量删除用户部门关系
      *
-     * @param userIds
-     * @return
+     * @param userIds userIds
+     * @return boolean
      */
     boolean deleteUserDeptBatch(String userIds);
 
     /**
      * 查询用户权限
      *
-     * @return
+     * @return List<SysMenu>
      */
     List<SysMenu> getUserNav(String userName);
 
     /**
      * 查询用户信息
      *
-     * @param username
-     * @return
+     * @param username username
+     * @param id       id
+     * @return SysUser
      */
-    SysUser findByUsername(String username);
+    SysUser findByUsername(String username, Long id);
 
     /**
      * 修改密码
      *
-     * @param userName
-     * @param password
+     * @param userName userName
+     * @param password password
+     * @return Boolean
+     */
+    Boolean changePassword(String userName, String password);
+
+    /**
+     * 校验修改密码
+     *
+     * @param vo     密码
+     * @param userId userId
      * @return
      */
-    boolean changePassword(String userName, String password);
+    Boolean verifyPassword(SysUserPwdVO vo, Long userId);
 
 }

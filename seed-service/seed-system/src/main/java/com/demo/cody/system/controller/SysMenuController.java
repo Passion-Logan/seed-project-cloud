@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 系统-菜单管理
@@ -39,15 +40,9 @@ public class SysMenuController {
 
     @Resource
     private ISysMenuService menuService;
-
     @Resource
     private ISysRoleMenuService roleMenuService;
 
-    /**
-     * 查询角色
-     *
-     * @return Map<String, Object>
-     */
     @ApiOperation(value = "查询角色")
     @GetMapping(value = "/queryTreeList")
     public Result<Map<String, Object>> queryTreeList() {
@@ -78,7 +73,7 @@ public class SysMenuController {
     @ApiOperation(value = "添加菜单")
     @PostMapping("addMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> addMenu(@RequestBody @Valid SysMenu menu) {
+    public Result<Void> addMenu(@RequestBody @Valid SysMenu menu) {
         menuService.save(menu);
         return Result.ok();
     }
@@ -86,7 +81,7 @@ public class SysMenuController {
     @ApiOperation(value = "编辑菜单")
     @PutMapping("updateMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> updateMenu(@RequestBody @Valid SysMenu menu) {
+    public Result<Void> updateMenu(@RequestBody @Valid SysMenu menu) {
         menuService.updateById(menu);
         return Result.ok();
     }
@@ -96,12 +91,12 @@ public class SysMenuController {
      * 如果父节点存在子节点 则不删除
      *
      * @param id id
-     * @return String
+     * @return Void
      */
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("deleteMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> deleteMenu(@ApiParam(name = "id", value = "id", required = true) @RequestParam String id) {
+    public Result<Void> deleteMenu(@ApiParam(name = "id", value = "id", required = true) @RequestParam String id) {
         menuService.deleteById(id);
         return Result.ok();
     }
@@ -111,12 +106,12 @@ public class SysMenuController {
      * 如果父节点存在子节点 则不删除
      *
      * @param object object
-     * @return String
+     * @return Void
      */
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("removeMenu")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Result<String> removeMenu(@RequestBody JSONObject object) {
+    public Result<Void> removeMenu(@RequestBody JSONObject object) {
         List<String> ids = Arrays.asList(object.getString("ids").split(","));
         menuService.deleteBatch(ids);
         return Result.ok();
@@ -126,16 +121,8 @@ public class SysMenuController {
     @ApiOperation(value = "查询角色授权")
     public Result<List<String>> queryRolePermission(@RequestParam(name = "roleId") String roleId) {
         List<SysRoleMenu> list = roleMenuService.getListByRoleId(roleId);
-        List<String> idList = new ArrayList<>();
-        list.forEach(item -> idList.add(item.getMenuId()));
-
+        List<String> idList = list.stream().map(item -> item.getMenuId().toString()).collect(Collectors.toList());
         return Result.ok(idList);
-    }
-
-    @GetMapping("getPermissionsByUserId")
-    @ApiOperation(value = "根据用户id查询用户权限")
-    public List<String> getPermissionsByUserId(@RequestParam("userId") String userId) {
-        return menuService.getPermissionsByUserId(userId);
     }
 
 }

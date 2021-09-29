@@ -1,5 +1,6 @@
 package com.demo.cody.common.entity;
 
+import com.demo.cody.common.aspect.annotation.Stringify;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -22,9 +23,11 @@ public class SysUserRole implements Serializable {
     /**
      * 角色ID
      */
-    private String roleId;
+    @Stringify
+    private Long roleId;
     /**
      * 用户ID
      */
-    private String userId;
+    @Stringify
+    private Long userId;
 }

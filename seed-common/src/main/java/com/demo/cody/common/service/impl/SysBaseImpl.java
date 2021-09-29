@@ -4,7 +4,7 @@ import com.demo.cody.common.constant.DataBaseConstant;
 import com.demo.cody.common.exception.CustomExecption;
 import com.demo.cody.common.service.ISysBaseAPI;
 import com.demo.cody.common.util.SpringContextUtils;
-import com.demo.cody.common.util.oConvertUtils;
+import com.demo.cody.mysql.utils.oConvertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

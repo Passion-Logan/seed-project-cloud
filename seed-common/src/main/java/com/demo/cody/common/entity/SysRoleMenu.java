@@ -1,5 +1,6 @@
 package com.demo.cody.common.entity;
 
+import com.demo.cody.common.aspect.annotation.Stringify;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -20,9 +21,11 @@ public class SysRoleMenu implements Serializable {
     /**
      * 菜单ID
      */
-    private String menuId;
+    @Stringify
+    private Long menuId;
     /**
      * 角色ID
      */
-    private String roleId;
+    @Stringify
+    private Long roleId;
 }

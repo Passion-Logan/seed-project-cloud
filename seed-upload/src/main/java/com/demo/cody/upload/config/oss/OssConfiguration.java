@@ -3,7 +3,11 @@ package com.demo.cody.upload.config.oss;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.demo.cody.upload.properties.OssProperties;
+import com.demo.cody.upload.service.FileService;
+import com.demo.cody.upload.service.impl.OssServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(name = "com.aliyun.oss.OSS")
-@EnableConfigurationProperties(OssConfiguration.class)
+@EnableConfigurationProperties(OssProperties.class)
 public class OssConfiguration {
 
     /**
@@ -30,6 +34,13 @@ public class OssConfiguration {
     @ConditionalOnClass(OSS.class)
     public OSS getOssClient(OssProperties ossProperties) {
         return new OSSClientBuilder().build(ossProperties.getEndpoint(), ossProperties.getAccessKey(), ossProperties.getSecretKey());
+    }
+
+    @Bean
+    @ConditionalOnBean({OSS.class})
+    @ConditionalOnMissingBean(FileService.class)
+    public FileService getOssService(OssProperties ossProperties, OSS ossClient) {
+        return new OssServiceImpl(ossProperties, ossClient);
     }
 
 }

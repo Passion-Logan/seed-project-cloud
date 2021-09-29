@@ -1,13 +1,17 @@
 package com.demo.cody.common.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.demo.cody.common.aspect.annotation.Stringify;
+import com.demo.cody.common.entity.basic.SysLogicDeleteModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @Description: 系统用户表
@@ -19,46 +23,46 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SysUser implements Serializable {
+public class SysUser extends SysLogicDeleteModel<SysUser> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID
-     */
-    @TableId(type = IdType.ID_WORKER_STR)
-    private String id;
-
-    /**
      * 用户昵称
      */
+    @NotBlank(message = "登录账号为空")
     private String userName;
 
     /**
      * 昵称
      */
+    @NotBlank(message = "昵称不能为空")
     private String nickName;
 
     /**
      * 用户邮箱
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String email;
 
     /**
      * 手机号码
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String phone;
 
     /**
      * 生日
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date birthday;
+    private LocalDateTime birthday;
 
     /**
      * 性别
      */
-    private String sex;
+    private Integer sex;
 
     /**
      * 用户头像
@@ -68,6 +72,7 @@ public class SysUser implements Serializable {
     /**
      * 密码
      */
+    @NotBlank(message = "密码不能为空")
     private String password;
 
     /**
@@ -78,24 +83,14 @@ public class SysUser implements Serializable {
     /**
      * 部门id
      */
-    private String deptId;
+    @Stringify
+    private Long deptId;
 
     /**
      * 岗位id
      */
-    private String jobId;
-
-    /**
-     * 创建者
-     */
-
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    @Stringify
+    private Long jobId;
 
     /**
      * 最后登录ip
@@ -105,8 +100,9 @@ public class SysUser implements Serializable {
     /**
      * 最后登录时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date loginTime;
+    private LocalDateTime loginTime;
 
     /**
      * 备注
