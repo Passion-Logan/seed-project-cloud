@@ -1,14 +1,12 @@
 package com.demo.cody.common.service.impl;
 
-import com.demo.cody.common.constant.CommonConstant;
+import com.demo.cody.common.constant.DataBaseConstant;
 import com.demo.cody.common.exception.CustomExecption;
 import com.demo.cody.common.service.ISysBaseAPI;
 import com.demo.cody.common.util.SpringContextUtils;
 import com.demo.cody.common.util.oConvertUtils;
-import com.demo.cody.common.constant.DataBaseConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -36,22 +34,6 @@ public class SysBaseImpl implements ISysBaseAPI {
         }
         DataSource dataSource = SpringContextUtils.getApplicationContext().getBean(DataSource.class);
         return getDatabaseTypeByDataSource(dataSource);
-    }
-
-    @Override
-    public String upload(MultipartFile file, String bizPath, String uploadType) {
-        String url = "";
-        if (CommonConstant.UPLOAD_TYPE_MINIO.equals(uploadType)) {
-            //url = MinioUtil.upload(file,bizPath);
-        } else {
-            url = OssBootUtil.upload(file, bizPath);
-        }
-        return url;
-    }
-
-    @Override
-    public String upload(MultipartFile file, String bizPath, String uploadType, String customBucket) {
-        return null;
     }
 
     /**

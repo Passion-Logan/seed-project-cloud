@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.demo.cody.upload.config.oss.MinIoConfiguration,\
+com.demo.cody.upload.config.minio.OssConfiguration,\
+com.zxj.file.config.MultiThreadConfig
+

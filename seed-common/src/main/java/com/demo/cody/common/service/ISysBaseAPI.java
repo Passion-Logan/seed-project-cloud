@@ -1,7 +1,5 @@
 package com.demo.cody.common.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.sql.SQLException;
 
 /**
@@ -14,30 +12,9 @@ public interface ISysBaseAPI {
     /**
      * 获取当前数据库类型
      *
-     * @return
-     * @throws SQLException
+     * @return String
+     * @throws SQLException SQLException
      */
     String getDatabaseType() throws SQLException;
-
-    /**
-     * 文件上传
-     *
-     * @param file       文件
-     * @param bizPath    自定义路径
-     * @param uploadType 上传方式
-     * @return
-     */
-    String upload(MultipartFile file, String bizPath, String uploadType);
-
-    /**
-     * 文件上传 自定义桶
-     *
-     * @param file         file
-     * @param bizPath      bizPath
-     * @param uploadType   uploadType
-     * @param customBucket customBucket
-     * @return
-     */
-    String upload(MultipartFile file, String bizPath, String uploadType, String customBucket);
 
 }

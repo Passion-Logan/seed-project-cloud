@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.cody.common.entity.SysLog;
 import com.demo.cody.common.entity.basic.SysBaseModel;
+import com.demo.cody.common.service.ISysBaseAPI;
 import com.demo.cody.common.vo.BasicPageVo;
 import com.demo.cody.common.vo.system.request.SysLogQueryVO;
 import com.demo.cody.system.mapper.SysLogMapper;
