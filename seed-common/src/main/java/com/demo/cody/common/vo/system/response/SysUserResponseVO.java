@@ -1,10 +1,14 @@
 package com.demo.cody.common.vo.system.response;
 
+import com.demo.cody.common.aspect.annotation.Stringify;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -22,8 +26,9 @@ public class SysUserResponseVO implements Serializable {
     /**
      * 用户ID
      */
+    @Stringify
     @ApiModelProperty("用户ID")
-    private String id;
+    private Long id;
 
     /**
      * 用户昵称
@@ -52,14 +57,16 @@ public class SysUserResponseVO implements Serializable {
     /**
      * 生日
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty("生日")
-    private String birthday;
+    private LocalDateTime birthday;
 
     /**
      * 性别
      */
     @ApiModelProperty("性别")
-    private String sex;
+    private Integer sex;
 
     /**
      * 用户头像

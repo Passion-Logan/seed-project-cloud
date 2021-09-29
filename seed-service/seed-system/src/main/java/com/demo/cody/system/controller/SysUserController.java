@@ -139,9 +139,16 @@ public class SysUserController {
         return Result.ok(roleList);
     }
 
+    @GetMapping("/getByUserName")
+    @ApiOperation(value = "根据用户名查找用户")
+    public SysUser findByUsername(@RequestParam("userName") String userName) {
+        return sysUserService.findByUsername(userName, null);
+    }
+
     private void isUsername(String username, Long id) {
         if (sysUserService.findByUsername(username, id) != null) {
             throw new CustomExecption("账号已存在");
         }
     }
+
 }

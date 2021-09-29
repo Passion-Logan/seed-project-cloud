@@ -17,6 +17,8 @@
         <result property="jobId" column="job_id"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
         <result property="loginIp" column="login_ip"/>
         <result property="loginTime" column="login_time"/>
         <result property="remark" column="remark"/>

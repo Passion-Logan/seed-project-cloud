@@ -176,7 +176,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser findByUsername(String username, Long id) {
-        return sysUserMapper.selectOne(Wrappers.<SysUser>lambdaQuery()
+        return this.getOne(Wrappers.<SysUser>lambdaQuery()
                 .ne(Objects.nonNull(id), SysUser::getId, id)
                 .eq(SysUser::getUserName, username)
         );

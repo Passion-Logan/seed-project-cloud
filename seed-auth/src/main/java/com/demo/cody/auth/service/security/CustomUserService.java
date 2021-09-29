@@ -41,7 +41,7 @@ public class CustomUserService implements UserDetailsService {
         //return new JwtUserDetails(username, user.getPassword(), user.getEnabled(), grantedAuthorities);
 
         SysUser findUser = systemService.findByUsername(s);
-        log.info(" ========={}", findUser);
+        log.info("======= {}", findUser);
         if (Objects.isNull(findUser)) {
             throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
         }
