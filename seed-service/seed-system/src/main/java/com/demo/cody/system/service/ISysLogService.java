@@ -2,6 +2,8 @@ package com.demo.cody.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.cody.common.entity.SysLog;
+import com.demo.cody.common.vo.BasicPageVo;
+import com.demo.cody.common.vo.system.request.SysLogQueryVO;
 
 import java.util.Date;
 import java.util.List;
@@ -15,9 +17,9 @@ import java.util.Map;
 public interface ISysLogService extends IService<SysLog> {
 
     /**
-     * @功能：清空所有日志记录
+     * 清空所有日志记录
      */
-    public void removeAll();
+    void removeAll();
 
     /**
      * 获取系统总访问次数
@@ -25,8 +27,6 @@ public interface ISysLogService extends IService<SysLog> {
      * @return Long
      */
     Long findTotalVisitCount();
-
-    //update-begin--Author:zhangweijian  Date:20190428 for：传入开始时间，结束时间参数
 
     /**
      * 获取系统今日访问次数
@@ -41,6 +41,23 @@ public interface ISysLogService extends IService<SysLog> {
      * @return Long
      */
     Long findTodayIp(Date dayStart, Date dayEnd);
-    //update-end--Author:zhangweijian  Date:20190428 for：传入开始时间，结束时间参数
+
+    /**
+     * 首页：根据时间统计访问数量/ip数量
+     *
+     * @param dayStart dayStart
+     * @param dayEnd   dayEnd
+     * @return Map
+     */
+    List<Map<String, Object>> findVisitCount(Date dayStart, Date dayEnd);
+
+
+    /**
+     * 分页获取操作日志
+     *
+     * @param vo
+     * @return
+     */
+    BasicPageVo<SysLog> getByPage(SysLogQueryVO vo);
 
 }

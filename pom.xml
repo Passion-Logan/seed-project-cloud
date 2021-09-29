@@ -17,6 +17,7 @@
         <module>seed-service</module>
         <module>seed-service-api</module>
         <module>seed-persistence</module>
+        <module>seed-upload</module>
     </modules>
 
     <parent>
