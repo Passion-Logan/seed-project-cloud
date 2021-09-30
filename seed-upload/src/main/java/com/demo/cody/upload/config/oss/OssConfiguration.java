@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Configuration;
  * @lastUpdateTime 2021/9/29
  */
 @Configuration
-@ConditionalOnClass(name = "com.aliyun.oss.OSS")
 @EnableConfigurationProperties(OssProperties.class)
 public class OssConfiguration {
 
