@@ -53,3 +53,10 @@
 #  singleServerConfig:
 #    address: 127.0.0.1:6379
 #    database: 1
+#seed:
+#  oss:
+#    access-key: xxx
+#    secret-key: xxx
+#    endpoint: xxx
+#    bucket-name: xxx
+#    static-domain: https://test.com/

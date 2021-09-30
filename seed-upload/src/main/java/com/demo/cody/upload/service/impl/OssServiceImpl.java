@@ -1,4 +1,4 @@
-package com.demo.upload.service.impl;
+package com.demo.cody.upload.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileTypeUtil;
@@ -7,13 +7,13 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.CreateBucketRequest;
 import com.aliyun.oss.model.DeleteObjectsRequest;
 import com.aliyun.oss.model.DeleteObjectsResult;
-import com.demo.upload.entity.BucketInfo;
-import com.demo.upload.entity.FileInfo;
-import com.demo.upload.entity.UploadUri;
-import com.demo.upload.properties.OssProperties;
-import com.demo.upload.service.FileService;
-import com.demo.upload.utils.FileProcessUtil;
-import com.demo.upload.utils.MockMultipartFile;
+import com.demo.cody.upload.entity.BucketInfo;
+import com.demo.cody.upload.utils.FileProcessUtil;
+import com.demo.cody.upload.utils.MockMultipartFile;
+import com.demo.cody.upload.entity.FileInfo;
+import com.demo.cody.upload.entity.UploadUri;
+import com.demo.cody.upload.properties.OssProperties;
+import com.demo.cody.upload.service.FileService;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

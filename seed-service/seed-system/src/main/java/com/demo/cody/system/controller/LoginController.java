@@ -56,8 +56,6 @@ public class LoginController {
     private RedissonObject redissonObject;
     @Resource
     private ISysMenuService sysMenuService;
-    @Resource
-
 
     /**
      * 记录日志
