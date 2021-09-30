@@ -1,8 +1,14 @@
 package com.demo.cody.system.filter;
 
+import com.demo.cody.common.constant.AuthConstant;
+import com.demo.cody.common.entity.SysUser;
+import com.demo.cody.common.security.JwtTokenUtils;
+import com.demo.cody.system.service.ISysUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
@@ -20,6 +26,9 @@ import java.util.Map;
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
+    @Resource
+    private ISysUserService userService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         Map<String, String> map = new HashMap<>();
@@ -29,6 +38,14 @@ public class AuthInterceptor implements HandlerInterceptor {
             String value = request.getHeader(key);
             map.put(key, value);
         }
+        String s = map.get(AuthConstant.TOKEN);
+        if (s.startsWith(AuthConstant.JWT_TOKEN_PREFIX)) {
+            s = StringUtils.substring(s, AuthConstant.JWT_TOKEN_PREFIX.length());
+            SysUser byUsername = userService.findByUsername(JwtTokenUtils.getUsernameFromToken(s), null);
+            request.setAttribute("userId", byUsername.getId());
+            request.setAttribute("phone", byUsername.getPhone());
+        }
+
         //返回true通过，返回false拦截
         return true;
     }

@@ -8,7 +8,10 @@ import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.security.JwtTokenUtils;
 import com.demo.cody.common.util.BeanUtil;
 import com.demo.cody.common.vo.Result;
+import com.demo.cody.common.vo.system.request.SysUserPwdVO;
 import com.demo.cody.common.vo.system.response.MenuResponseVO;
+import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
+import com.demo.cody.common.vo.system.response.SysUserInfoResponseVO;
 import com.demo.cody.common.vo.system.response.UserInfoResponseVO;
 import com.demo.cody.system.service.ISysLoginLogService;
 import com.demo.cody.system.service.ISysMenuService;
@@ -19,6 +22,8 @@ import com.zengtengpeng.operation.RedissonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -43,18 +48,14 @@ public class LoginController {
 
     @Resource
     private ISysUserService sysUserService;
-
     @Resource
     private ISysRoleService roleService;
-
-    @Resource
-    private ISysMenuService sysMenuService;
-
     @Resource
     private ISysLoginLogService loginLogService;
-
     @Resource
     private RedissonObject redissonObject;
+    @Resource
+    private ISysMenuService sysMenuService;
 
     /**
      * 记录日志
@@ -94,6 +95,23 @@ public class LoginController {
         return Result.ok(imgResult);
     }
 
+    @ApiOperation("更新用户信息")
+    @PostMapping(value = "/user/updateUser")
+    public Result<Void> updateUser(@RequestBody @Validated UserInfoResponseVO vo) {
+        SysUser byId = sysUserService.getById(vo.getId());
+        BeanUtils.copyProperties(vo, byId, "roles", "id");
+        sysUserService.updateById(byId);
+
+        return Result.ok("更新成功");
+    }
+
+    @ApiOperation("用户修改密码")
+    @PostMapping(value = "/user/updatePwd")
+    public Result<Void> updatePwd(@RequestBody @Validated SysUserPwdVO vo, @RequestAttribute Long userId) {
+        sysUserService.verifyPassword(vo, userId);
+        return Result.ok("修改成功");
+    }
+
     @PostMapping("/user/uploadAvatar")
     public Result<Void> uploadAvatar(HttpServletRequest request) {
         /*String savePath;
@@ -125,9 +143,28 @@ public class LoginController {
      */
     @ApiOperation("登录用户信息")
     @GetMapping(value = "/user/info")
-    public Result<UserInfoResponseVO> getUserInfo() {
+    public SysUserInfoResponseVO getUserInfo(@RequestAttribute Long userId) {
         //查询用户信息
-        SysUser user = sysUserService.findByUsername(JwtTokenUtils.getUsernameFromToken(), null);
+        SysUser user = sysUserService.getById(userId);
+        SysUserInfoResponseVO responseVo = BeanUtil.convert(user, SysUserInfoResponseVO.class);
+
+        //查询角色信息
+        List<SysRole> roles = roleService.getRolesByUserId(user.getId());
+        List<SysRoleResponseVO> roleList = BeanUtil.convert(roles, SysRoleResponseVO.class);
+        Objects.requireNonNull(responseVo).setRoles(roleList);
+
+        //查询角色权限信息
+        List<String> permissions = sysMenuService.getPermissionsByUserId(user.getId());
+        responseVo.setPermissions(permissions);
+
+        return responseVo;
+    }
+
+    @ApiOperation("获取用户信息")
+    @GetMapping(value = "/user/getInfo")
+    public Result<UserInfoResponseVO> getInfo(@RequestAttribute Long userId) {
+        //查询用户信息
+        SysUser user = sysUserService.getById(userId);
         UserInfoResponseVO responseVo = BeanUtil.convert(user, UserInfoResponseVO.class);
 
         //查询角色信息
