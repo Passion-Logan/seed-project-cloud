@@ -1,4 +1,4 @@
-package com.demo.cody.upload.utils;
+package com.demo.upload.utils;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;

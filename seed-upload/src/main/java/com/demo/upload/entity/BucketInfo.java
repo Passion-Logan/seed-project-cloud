@@ -1,4 +1,4 @@
-package com.demo.cody.upload.entity;
+package com.demo.upload.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

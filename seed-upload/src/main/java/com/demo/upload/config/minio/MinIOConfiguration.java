@@ -1,4 +1,4 @@
-package com.demo.cody.upload.config.minio;
+package com.demo.upload.config.minio;
 
 /**
  * @author wql

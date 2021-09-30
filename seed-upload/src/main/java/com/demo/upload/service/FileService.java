@@ -1,8 +1,8 @@
-package com.demo.cody.upload.service;
+package com.demo.upload.service;
 
-import com.demo.cody.upload.entity.BucketInfo;
-import com.demo.cody.upload.entity.FileInfo;
-import com.demo.cody.upload.entity.UploadUri;
+import com.demo.upload.entity.BucketInfo;
+import com.demo.upload.entity.FileInfo;
+import com.demo.upload.entity.UploadUri;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;

@@ -1,4 +1,4 @@
-package com.demo.cody.upload.properties;
+package com.demo.upload.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

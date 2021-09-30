@@ -20,6 +20,12 @@
 
         <dependency>
             <groupId>com.demo</groupId>
+            <artifactId>seed-upload</artifactId>
+            <version>${seed-project-cloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.demo</groupId>
             <artifactId>seed-common</artifactId>
             <exclusions>
                 <exclusion>

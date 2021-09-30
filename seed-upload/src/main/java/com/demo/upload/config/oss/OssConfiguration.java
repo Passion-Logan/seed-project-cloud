@@ -1,10 +1,10 @@
-package com.demo.cody.upload.config.oss;
+package com.demo.upload.config.oss;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.demo.cody.upload.properties.OssProperties;
-import com.demo.cody.upload.service.FileService;
-import com.demo.cody.upload.service.impl.OssServiceImpl;
+import com.demo.upload.properties.OssProperties;
+import com.demo.upload.service.FileService;
+import com.demo.upload.service.impl.OssServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
