@@ -176,7 +176,7 @@ public class OssServiceImpl implements FileService {
             finalPath = finalPath + "default/";
         }
         finalPath = finalPath + FileProcessUtil.getDateFolder() + "/" + fileName;
-        ossClient.putObject(bucketName, finalPath, new ByteArrayInputStream(multipartFile.getBytes()));
+//        ossClient.putObject(bucketName, finalPath, new ByteArrayInputStream(multipartFile.getBytes()));
         return finalPath;
     }
 

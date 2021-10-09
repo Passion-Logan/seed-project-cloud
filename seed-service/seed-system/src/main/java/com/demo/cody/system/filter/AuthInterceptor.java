@@ -1,5 +1,6 @@
 package com.demo.cody.system.filter;
 
+import cn.hutool.core.util.StrUtil;
 import com.demo.cody.common.constant.AuthConstant;
 import com.demo.cody.common.entity.SysUser;
 import com.demo.cody.common.security.JwtTokenUtils;
@@ -39,7 +40,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             map.put(key, value);
         }
         String s = map.get(AuthConstant.TOKEN);
-        if (s.startsWith(AuthConstant.JWT_TOKEN_PREFIX)) {
+        if (StrUtil.isNotBlank(s) && s.startsWith(AuthConstant.JWT_TOKEN_PREFIX)) {
             s = StringUtils.substring(s, AuthConstant.JWT_TOKEN_PREFIX.length());
             SysUser byUsername = userService.findByUsername(JwtTokenUtils.getUsernameFromToken(s), null);
             request.setAttribute("userId", byUsername.getId());

@@ -17,6 +17,7 @@ import com.demo.cody.system.service.ISysLoginLogService;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysRoleService;
 import com.demo.cody.system.service.ISysUserService;
+import com.demo.cody.upload.service.FileService;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.zengtengpeng.operation.RedissonObject;
 import io.swagger.annotations.Api;
@@ -25,9 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -56,6 +60,8 @@ public class LoginController {
     private RedissonObject redissonObject;
     @Resource
     private ISysMenuService sysMenuService;
+    @Resource
+    private FileService fileService;
 
     /**
      * 记录日志
@@ -133,6 +139,17 @@ public class LoginController {
             return Result.ok(savePath);
         }
         return Result.error("上传失败!");*/
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile file = multipartRequest.getFile("file");
+
+        try {
+            String s = fileService.uploadFile("hosting-edu-download", "", file);
+            log.info("==================={}", s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return Result.ok("/12312/321");
     }
 
@@ -143,7 +160,7 @@ public class LoginController {
      */
     @ApiOperation("登录用户信息")
     @GetMapping(value = "/user/info")
-    public SysUserInfoResponseVO getUserInfo(@RequestAttribute Long userId) {
+    public Result<SysUserInfoResponseVO> getUserInfo(@RequestAttribute Long userId) {
         //查询用户信息
         SysUser user = sysUserService.getById(userId);
         SysUserInfoResponseVO responseVo = BeanUtil.convert(user, SysUserInfoResponseVO.class);
@@ -157,7 +174,7 @@ public class LoginController {
         List<String> permissions = sysMenuService.getPermissionsByUserId(user.getId());
         responseVo.setPermissions(permissions);
 
-        return responseVo;
+        return Result.ok(responseVo);
     }
 
     @ApiOperation("获取用户信息")

@@ -1,5 +1,6 @@
 package com.demo.cody.gateway.filter;
 
+import cn.hutool.core.util.StrUtil;
 import com.demo.cody.common.constant.AuthConstant;
 import com.demo.cody.gateway.config.IgnoreUrlsConfig;
 import com.demo.cody.gateway.feign.AuthFeignClient;
@@ -65,6 +66,9 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             if (pathMatcher.match(ignoreUrl, url)) {
                 return chain.filter(exchange);
             }
+        }
+        if (StrUtil.isBlank(authentication) && StrUtil.isNotBlank(token)) {
+            authentication = "Bearer " + token;
         }
         if (authFeignClient.permission(authentication, url, method)) {
             ServerHttpRequest.Builder builder = request.mutate();
