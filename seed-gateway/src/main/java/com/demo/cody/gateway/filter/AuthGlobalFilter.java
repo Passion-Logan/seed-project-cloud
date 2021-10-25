@@ -1,11 +1,10 @@
 package com.demo.cody.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
-import com.demo.cody.common.constant.AuthConstant;
+import com.demo.cody.core.constant.AuthConstant;
 import com.demo.cody.gateway.config.IgnoreUrlsConfig;
 import com.demo.cody.gateway.feign.AuthFeignClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

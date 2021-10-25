@@ -1,9 +1,9 @@
 package com.demo.cody.system.filter;
 
 import cn.hutool.core.util.StrUtil;
-import com.demo.cody.common.constant.AuthConstant;
+import com.demo.cody.core.constant.AuthConstant;
 import com.demo.cody.common.entity.SysUser;
-import com.demo.cody.common.security.JwtTokenUtils;
+import com.demo.cody.core.security.JwtTokenUtils;
 import com.demo.cody.system.service.ISysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

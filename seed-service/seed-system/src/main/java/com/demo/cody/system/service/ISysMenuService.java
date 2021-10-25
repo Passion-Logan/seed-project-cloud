@@ -2,8 +2,8 @@ package com.demo.cody.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.cody.common.entity.SysMenu;
-import com.demo.cody.common.vo.system.response.SysUserMenuResponseVO;
-import com.demo.cody.common.vo.system.response.TreeData;
+import com.demo.cody.core.vo.system.response.SysUserMenuResponseVO;
+import com.demo.cody.core.vo.system.response.TreeData;
 
 import java.util.List;
 

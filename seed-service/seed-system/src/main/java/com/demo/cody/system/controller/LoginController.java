@@ -1,18 +1,18 @@
 package com.demo.cody.system.controller;
 
-import com.demo.cody.common.aspect.annotation.NoRepeatSubmit;
+import com.demo.cody.core.annotation.NoRepeatSubmit;
 import com.demo.cody.common.entity.SysLoginLog;
 import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysRole;
 import com.demo.cody.common.entity.SysUser;
-import com.demo.cody.common.security.JwtTokenUtils;
-import com.demo.cody.common.util.BeanUtil;
-import com.demo.cody.common.vo.Result;
-import com.demo.cody.common.vo.system.request.SysUserPwdVO;
-import com.demo.cody.common.vo.system.response.MenuResponseVO;
-import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
-import com.demo.cody.common.vo.system.response.SysUserInfoResponseVO;
-import com.demo.cody.common.vo.system.response.UserInfoResponseVO;
+import com.demo.cody.core.security.JwtTokenUtils;
+import com.demo.cody.core.util.BeanUtil;
+import com.demo.cody.core.vo.Result;
+import com.demo.cody.core.vo.system.request.SysUserPwdVO;
+import com.demo.cody.core.vo.system.response.MenuResponseVO;
+import com.demo.cody.core.vo.system.response.SysRoleResponseVO;
+import com.demo.cody.core.vo.system.response.SysUserInfoResponseVO;
+import com.demo.cody.core.vo.system.response.UserInfoResponseVO;
 import com.demo.cody.system.service.ISysLoginLogService;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysRoleService;
@@ -119,38 +119,19 @@ public class LoginController {
     }
 
     @PostMapping("/user/uploadAvatar")
-    public Result<Void> uploadAvatar(HttpServletRequest request) {
-        /*String savePath;
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        MultipartFile file = multipartRequest.getFile("file");// 获取上传文件对象
-
-        String bizPath = request.getParameter("biz");
-        if (oConvertUtils.isEmpty(bizPath)) {
-            bizPath = CommonConstant.UPLOAD_TYPE_OSS.equals(uploadType) ? "upload" : "";
-        }
-
-        if (CommonConstant.UPLOAD_TYPE_LOCAL.equals(uploadType)) {
-            savePath = this.uploadLocal(file, bizPath);
-        } else {
-            savePath = sysBaseAPI.upload(file, bizPath, uploadType);
-        }
-
-        if (StrUtil.isNotBlank(savePath)) {
-            return Result.ok(savePath);
-        }
-        return Result.error("上传失败!");*/
-
+    public Result<String> uploadAvatar(HttpServletRequest request) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile file = multipartRequest.getFile("file");
 
         try {
             String s = fileService.uploadFile("hosting-edu-download", "", file);
             log.info("==================={}", s);
+            return Result.ok("上传成功", s);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return Result.ok("/12312/321");
+        return Result.error("上传失败");
     }
 
     /**

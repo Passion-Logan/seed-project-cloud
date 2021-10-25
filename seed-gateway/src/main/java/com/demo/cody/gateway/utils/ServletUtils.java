@@ -11,8 +11,8 @@ import org.springframework.web.server.ServerWebExchange;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.demo.cody.common.constant.AuthConstant.*;
-import static com.demo.cody.common.constant.StringConstant.EMPTY;
+import static com.demo.cody.core.constant.AuthConstant.*;
+import static com.demo.cody.core.constant.StringConstant.EMPTY;
 
 /**
  * @author wql

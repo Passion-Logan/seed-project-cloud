@@ -1,7 +1,7 @@
 package com.demo.cody.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.demo.cody.common.vo.Result;
+import com.demo.cody.core.vo.Result;
 import com.demo.cody.gateway.utils.ServletUtils;
 import com.zengtengpeng.operation.RedissonObject;
 import lombok.RequiredArgsConstructor;

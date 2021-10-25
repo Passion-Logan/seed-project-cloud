@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.cody.common.entity.SysMenu;
 import com.demo.cody.common.entity.SysUser;
-import com.demo.cody.common.vo.system.request.SysUserPwdVO;
-import com.demo.cody.common.vo.system.request.SysUserQueryVO;
-import com.demo.cody.common.vo.system.response.SysUserResponseVO;
+import com.demo.cody.core.vo.system.request.SysUserPwdVO;
+import com.demo.cody.core.vo.system.request.SysUserQueryVO;
+import com.demo.cody.core.vo.system.response.SysUserResponseVO;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.demo.cody.system.mapper.SysRoleMapper">
-    <resultMap id="BaseResultMap" type="com.demo.cody.common.entity.SysRole">
+    <resultMap id="BaseResultMap" type="com.demo.cody.model.entity.SysRole">
         <result property="id" column="id"/>
         <result property="roleCode" column="role_code"/>
         <result property="roleName" column="role_name"/>
@@ -35,7 +35,7 @@
 
     </select>
 
-    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.common.vo.system.request.SysRoleQueryVO">
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.core.vo.system.request.SysRoleQueryVO">
 
         select
         <include refid="columns" />

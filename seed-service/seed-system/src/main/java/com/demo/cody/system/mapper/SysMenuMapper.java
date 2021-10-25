@@ -2,7 +2,7 @@ package com.demo.cody.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.demo.cody.common.entity.SysMenu;
-import com.demo.cody.common.vo.system.response.SysUserMenuResponseVO;
+import com.demo.cody.core.vo.system.response.SysUserMenuResponseVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

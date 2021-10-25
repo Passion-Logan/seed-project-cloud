@@ -2,8 +2,8 @@ package com.demo.cody.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.cody.common.entity.SysLog;
-import com.demo.cody.common.vo.BasicPageVo;
-import com.demo.cody.common.vo.system.request.SysLogQueryVO;
+import com.demo.cody.core.vo.BasicPageVo;
+import com.demo.cody.core.vo.system.request.SysLogQueryVO;
 
 import java.util.Date;
 import java.util.List;

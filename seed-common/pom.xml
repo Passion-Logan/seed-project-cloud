@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>seed-common</artifactId>
+    <packaging>pom</packaging>
     <version>${seed-project-cloud.version}</version>
 
     <parent>
@@ -11,6 +12,11 @@
         <groupId>com.demo</groupId>
         <version>${seed-project-cloud.version}</version>
     </parent>
+
+    <modules>
+        <module>seed-common-core</module>
+        <module>seed-common-model</module>
+    </modules>
 
     <dependencies>
         <dependency>

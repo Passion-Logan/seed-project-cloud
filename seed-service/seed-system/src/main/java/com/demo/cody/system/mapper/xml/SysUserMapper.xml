@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.cody.system.mapper.SysUserMapper">
 
-    <resultMap id="BaseResultMap" type="com.demo.cody.common.entity.SysUser">
+    <resultMap id="BaseResultMap" type="com.demo.cody.model.entity.SysUser">
         <result property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="nickName" column="nick_name"/>
@@ -129,7 +129,7 @@
     </select>
 
     <!--根据对象查询列表 <include refid="where_condition"/> -->
-    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.common.vo.system.request.SysUserQueryVO">
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.core.vo.system.request.SysUserQueryVO">
         SELECT
         <include refid="columns"/>
         FROM sys_user

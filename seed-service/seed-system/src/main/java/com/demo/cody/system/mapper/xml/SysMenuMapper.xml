@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.cody.system.mapper.SysMenuMapper">
 
-    <resultMap id="BaseResultMap" type="com.demo.cody.common.entity.SysMenu">
+    <resultMap id="BaseResultMap" type="com.demo.cody.model.entity.SysMenu">
         <result property="id" column="id"/>
         <result property="menu" column="menu"/>
         <result property="isFrame" column="is_frame"/>
@@ -42,7 +42,7 @@
 		remark
 	</sql>
 
-    <select id="getList" resultType="com.demo.cody.common.vo.system.response.SysUserMenuResponseVO">
+    <select id="getList" resultType="com.demo.cody.core.vo.system.response.SysUserMenuResponseVO">
         select
         m.id,
         m.type,

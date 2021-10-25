@@ -2,9 +2,9 @@ package com.demo.cody.system.controller;
 
 import com.demo.cody.common.entity.SysLog;
 import com.demo.cody.common.entity.SysLoginLog;
-import com.demo.cody.common.vo.BasicPageVo;
-import com.demo.cody.common.vo.system.request.SysLogQueryVO;
-import com.demo.cody.common.vo.system.request.SysLoginLogQueryVO;
+import com.demo.cody.core.vo.BasicPageVo;
+import com.demo.cody.core.vo.system.request.SysLogQueryVO;
+import com.demo.cody.core.vo.system.request.SysLoginLogQueryVO;
 import com.demo.cody.system.service.ISysLogService;
 import com.demo.cody.system.service.ISysLoginLogService;
 import io.swagger.annotations.Api;

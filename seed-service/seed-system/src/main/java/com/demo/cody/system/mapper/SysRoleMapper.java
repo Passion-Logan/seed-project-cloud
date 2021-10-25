@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.cody.common.entity.SysRole;
-import com.demo.cody.common.vo.system.request.SysRoleQueryVO;
-import com.demo.cody.common.vo.system.response.SysRoleResponseVO;
+import com.demo.cody.core.vo.system.request.SysRoleQueryVO;
+import com.demo.cody.core.vo.system.response.SysRoleResponseVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
