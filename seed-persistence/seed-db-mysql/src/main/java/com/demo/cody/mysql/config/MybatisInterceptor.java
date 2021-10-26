@@ -1,6 +1,7 @@
 package com.demo.cody.mysql.config;
 
 import cn.hutool.core.util.StrUtil;
+import com.demo.cody.core.security.JwtTokenUtils;
 import com.demo.cody.mysql.utils.oConvertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -80,25 +80,18 @@ public class MybatisInterceptor implements Interceptor {
             }
         }
         if (SqlCommandType.UPDATE == sqlCommandType) {
-//            LoginUser sysUser = this.getLoginUser();
             String username = this.getLoginUser();
             Field[] fields = null;
             if (parameter instanceof MapperMethod.ParamMap) {
                 MapperMethod.ParamMap<?> p = (MapperMethod.ParamMap<?>) parameter;
-                //update-begin-author:scott date:20190729 for:批量更新报错issues/IZA3Q--
                 if (p.containsKey("et")) {
                     parameter = p.get("et");
                 } else {
                     parameter = p.get("param1");
                 }
-                //update-end-author:scott date:20190729 for:批量更新报错issues/IZA3Q-
-
-                //update-begin-author:scott date:20190729 for:更新指定字段时报错 issues/#516-
                 if (parameter == null) {
                     return invocation.proceed();
                 }
-                //update-end-author:scott date:20190729 for:更新指定字段时报错 issues/#516-
-
                 fields = oConvertUtils.getAllFields(parameter);
             } else {
                 fields = oConvertUtils.getAllFields(parameter);
@@ -140,24 +133,7 @@ public class MybatisInterceptor implements Interceptor {
     }
 
     private String getLoginUser() {
-//        LoginUser sysUser = null;
-//        try {
-//            UsernamePasswordAuthenticationToken authenticationToken =
-//                    SecurityContextHolder.getContext().getAuthentication() != null ?
-//                            (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication() : null;
-//
-//            if (authenticationToken.getDetails() != null) {
-//                sysUser = (LoginUser) authenticationToken.getDetails();
-//            }
-//        } catch (Exception e) {
-//            //e.printStackTrace();
-//            sysUser = null;
-//        }
-//        return sysUser;
-//        return SecurityUtils.getUsername(SecurityUtils.getAuthentication());
-//        return SecurityUtils.getUsername();
-        // TODO 待重构
-        return "";
+        return JwtTokenUtils.getUsernameFromToken();
     }
 
 }
