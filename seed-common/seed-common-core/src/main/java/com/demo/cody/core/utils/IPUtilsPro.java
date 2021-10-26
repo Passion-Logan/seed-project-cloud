@@ -70,8 +70,8 @@ public class IPUtilsPro {
     /**
      * 获取浏览器
      *
-     * @param request
-     * @return
+     * @param request request
+     * @return String
      */
     public static String getBrowser(HttpServletRequest request) {
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
@@ -82,8 +82,8 @@ public class IPUtilsPro {
     /**
      * 获取操作系统
      *
-     * @param request
-     * @return
+     * @param request request
+     * @return String
      */
     public static String getOperatingSystem(HttpServletRequest request) {
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
@@ -95,8 +95,8 @@ public class IPUtilsPro {
     /**
      * 获取登录用户IP地址
      *
-     * @param request
-     * @return
+     * @param request request
+     * @return String
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
@@ -119,7 +119,7 @@ public class IPUtilsPro {
     /**
      * 获取IPV4
      *
-     * @return
+     * @return String
      */
     public static String getNetworkIpV4Address() {
         try {
