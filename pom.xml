@@ -37,7 +37,6 @@
         <commons.version>2.6</commons.version>
         <hutool.version>5.4.2</hutool.version>
         <admin-starter-server.version>2.2.3</admin-starter-server.version>
-<!--    <nimbus-jose-jwt.version>8.16</nimbus-jose-jwt.version>-->
     </properties>
 
     <dependencies>
