@@ -118,6 +118,7 @@ public class LoginController {
         return Result.ok("修改成功");
     }
 
+    @ApiOperation("上传用户头像")
     @PostMapping("/user/uploadAvatar")
     public Result<String> uploadAvatar(HttpServletRequest request) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
