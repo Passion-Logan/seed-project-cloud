@@ -14,11 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.demo</groupId>
             <artifactId>seed-upload</artifactId>
             <version>${seed-project-cloud.version}</version>
@@ -26,21 +21,27 @@
 
         <dependency>
             <groupId>com.demo</groupId>
-            <artifactId>seed-common</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-security</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-oauth2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-jwt</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>seed-common-core</artifactId>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.cloud</groupId>-->
+<!--                    <artifactId>spring-cloud-starter-security</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.cloud</groupId>-->
+<!--                    <artifactId>spring-cloud-starter-oauth2</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.security</groupId>-->
+<!--                    <artifactId>spring-security-jwt</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+            <version>${seed-project-cloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.demo</groupId>
+            <artifactId>seed-common-model</artifactId>
             <version>${seed-project-cloud.version}</version>
         </dependency>
 

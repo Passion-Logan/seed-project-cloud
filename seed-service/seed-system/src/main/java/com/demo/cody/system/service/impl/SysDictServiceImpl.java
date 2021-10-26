@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.cody.core.constant.CacheConstant;
 import com.demo.cody.core.constant.CommonConstant;
-import com.demo.cody.common.entity.SysDict;
-import com.demo.cody.common.entity.SysDictItem;
-import com.demo.cody.core.vo.system.DictModel;
-import com.demo.cody.core.vo.system.DictQuery;
-import com.demo.cody.core.vo.system.TreeSelectModel;
+import com.demo.cody.model.entity.SysDict;
+import com.demo.cody.model.entity.SysDictItem;
+import com.demo.cody.model.vo.system.DictModel;
+import com.demo.cody.model.vo.system.DictQuery;
+import com.demo.cody.model.vo.system.TreeSelectModel;
 import com.demo.cody.system.mapper.SysDictItemMapper;
 import com.demo.cody.system.mapper.SysDictMapper;
 import com.demo.cody.system.service.ISysDictService;
@@ -19,6 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,10 +34,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements ISysDictService {
 
-    @Autowired
+    @Resource
     private SysDictMapper sysDictMapper;
-
-    @Autowired
+    @Resource
     private SysDictItemMapper sysDictItemMapper;
 
     /**

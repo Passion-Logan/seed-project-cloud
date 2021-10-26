@@ -1,7 +1,7 @@
 package com.demo.cody.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.cody.common.entity.SysRoleMenu;
+import com.demo.cody.model.entity.SysRoleMenu;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.demo.cody.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.cody.common.entity.SysDictItem;
+import com.demo.cody.model.entity.SysDictItem;
 import com.demo.cody.system.mapper.SysDictItemMapper;
 import com.demo.cody.system.service.ISysDictItemService;
 import org.springframework.beans.factory.annotation.Autowired;

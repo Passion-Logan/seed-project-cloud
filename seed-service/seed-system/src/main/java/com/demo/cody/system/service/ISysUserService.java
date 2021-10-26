@@ -3,11 +3,11 @@ package com.demo.cody.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.cody.common.entity.SysMenu;
-import com.demo.cody.common.entity.SysUser;
-import com.demo.cody.core.vo.system.request.SysUserPwdVO;
-import com.demo.cody.core.vo.system.request.SysUserQueryVO;
-import com.demo.cody.core.vo.system.response.SysUserResponseVO;
+import com.demo.cody.model.entity.SysMenu;
+import com.demo.cody.model.entity.SysUser;
+import com.demo.cody.model.vo.system.request.SysUserPwdVO;
+import com.demo.cody.model.vo.system.request.SysUserQueryVO;
+import com.demo.cody.model.vo.system.response.SysUserResponseVO;
 
 import java.util.List;
 

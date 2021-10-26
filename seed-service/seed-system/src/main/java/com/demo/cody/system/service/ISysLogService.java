@@ -1,13 +1,11 @@
 package com.demo.cody.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.cody.common.entity.SysLog;
-import com.demo.cody.core.vo.BasicPageVo;
-import com.demo.cody.core.vo.system.request.SysLogQueryVO;
+import com.demo.cody.model.utils.BasicPageVo;
+import com.demo.cody.model.entity.SysLog;
+import com.demo.cody.model.vo.system.request.SysLogQueryVO;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -41,16 +39,6 @@ public interface ISysLogService extends IService<SysLog> {
      * @return Long
      */
     Long findTodayIp(Date dayStart, Date dayEnd);
-
-    /**
-     * 首页：根据时间统计访问数量/ip数量
-     *
-     * @param dayStart dayStart
-     * @param dayEnd   dayEnd
-     * @return Map
-     */
-    List<Map<String, Object>> findVisitCount(Date dayStart, Date dayEnd);
-
 
     /**
      * 分页获取操作日志

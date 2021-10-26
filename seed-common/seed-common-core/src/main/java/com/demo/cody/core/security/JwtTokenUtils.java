@@ -1,6 +1,6 @@
 package com.demo.cody.core.security;
 
-import com.demo.cody.core.util.SpringUtils;
+import com.demo.cody.core.utils.SpringUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;

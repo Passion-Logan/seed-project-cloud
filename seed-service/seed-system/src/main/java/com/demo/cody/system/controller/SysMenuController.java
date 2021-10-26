@@ -1,10 +1,10 @@
 package com.demo.cody.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.demo.cody.common.entity.SysMenu;
-import com.demo.cody.common.entity.SysRoleMenu;
-import com.demo.cody.core.vo.Result;
-import com.demo.cody.core.vo.system.response.SysUserMenuResponseVO;
+import com.demo.cody.core.utils.response.Result;
+import com.demo.cody.model.entity.SysMenu;
+import com.demo.cody.model.entity.SysRoleMenu;
+import com.demo.cody.model.vo.system.response.SysUserMenuResponseVO;
 import com.demo.cody.system.service.ISysMenuService;
 import com.demo.cody.system.service.ISysRoleMenuService;
 import com.demo.cody.system.util.TreeUtil;

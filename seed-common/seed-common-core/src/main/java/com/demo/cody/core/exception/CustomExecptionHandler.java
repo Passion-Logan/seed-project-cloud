@@ -1,8 +1,7 @@
 package com.demo.cody.core.exception;
 
-import com.demo.cody.core.vo.Result;
+import com.demo.cody.core.utils.response.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,12 +25,6 @@ public class CustomExecptionHandler {
     public Result<?> handlerNoFoundException(Exception e) {
         log.error(e.getMessage(), e);
         return Result.error(404, "路径不存在，请检查路径是否正确");
-    }
-
-    @ExceptionHandler(DuplicateKeyException.class)
-    public Result<?> handleDuplicateKeyException(DuplicateKeyException e){
-        log.error(e.getMessage(), e);
-        return Result.error("数据库中已存在该记录");
     }
 
     @ExceptionHandler(Exception.class)

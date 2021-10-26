@@ -1,7 +1,7 @@
 package com.demo.cody.model.entity;
 
-import com.demo.cody.core.annotation.Stringify;
-import com.demo.cody.common.entity.basic.SysBaseModel;
+import com.demo.cody.core.aspect.annotation.Stringify;
+import com.demo.cody.model.entity.basic.SysBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;

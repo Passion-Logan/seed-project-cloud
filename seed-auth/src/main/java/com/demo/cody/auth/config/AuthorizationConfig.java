@@ -4,7 +4,7 @@ import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.demo.cody.auth.properties.SecurityConfigProperties;
 import com.demo.cody.auth.service.security.CustomUserService;
-import com.demo.cody.core.vo.Result;
+import com.demo.cody.core.utils.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

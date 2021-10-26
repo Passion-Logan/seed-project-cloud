@@ -5,21 +5,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.cody.common.entity.SysLog;
-import com.demo.cody.common.entity.SysBaseModel;
 import com.demo.cody.core.service.ISysBaseAPI;
-import com.demo.cody.core.vo.BasicPageVo;
-import com.demo.cody.core.vo.system.request.SysLogQueryVO;
+import com.demo.cody.model.utils.BasicPageVo;
+import com.demo.cody.model.entity.SysLog;
+import com.demo.cody.model.entity.basic.SysBaseModel;
+import com.demo.cody.model.vo.system.request.SysLogQueryVO;
 import com.demo.cody.system.mapper.SysLogMapper;
 import com.demo.cody.system.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -52,17 +49,6 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
     @Override
     public Long findTodayIp(Date dayStart, Date dayEnd) {
         return sysLogMapper.findTodayIp(dayStart, dayEnd);
-    }
-
-    @Override
-    public List<Map<String, Object>> findVisitCount(Date dayStart, Date dayEnd) {
-        try {
-            String dbType = sysBaseApi.getDatabaseType();
-            return sysLogMapper.findVisitCount(dayStart, dayEnd, dbType);
-        } catch (SQLException e) {
-            log.error("错误信息:{}", e.getMessage());
-        }
-        return null;
     }
 
     @Override

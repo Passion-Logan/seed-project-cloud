@@ -1,7 +1,7 @@
 package com.demo.cody.system.util;
 
 
-import com.demo.cody.core.vo.system.response.SysUserMenuResponseVO;
+import com.demo.cody.model.vo.system.response.SysUserMenuResponseVO;
 
 import java.util.ArrayList;
 import java.util.List;

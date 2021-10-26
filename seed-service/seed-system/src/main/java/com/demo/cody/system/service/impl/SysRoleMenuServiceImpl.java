@@ -2,7 +2,7 @@ package com.demo.cody.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.cody.common.entity.SysRoleMenu;
+import com.demo.cody.model.entity.SysRoleMenu;
 import com.demo.cody.system.mapper.SysRoleMenuMapper;
 import com.demo.cody.system.service.ISysRoleMenuService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,11 +1,11 @@
 package com.demo.cody.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.cody.common.entity.SysDict;
-import com.demo.cody.common.entity.SysDictItem;
-import com.demo.cody.core.vo.system.DictModel;
-import com.demo.cody.core.vo.system.DictQuery;
-import com.demo.cody.core.vo.system.TreeSelectModel;
+import com.demo.cody.model.entity.SysDict;
+import com.demo.cody.model.entity.SysDictItem;
+import com.demo.cody.model.vo.system.DictModel;
+import com.demo.cody.model.vo.system.DictQuery;
+import com.demo.cody.model.vo.system.TreeSelectModel;
 
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package com.demo.cody.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.cody.common.entity.SysDept;
+import com.demo.cody.model.entity.SysDept;
 import com.demo.cody.system.mapper.SysDeptMapper;
 import com.demo.cody.system.service.ISysDeptService;
 import org.slf4j.Logger;

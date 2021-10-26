@@ -35,7 +35,7 @@
 
     </select>
 
-    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.core.vo.system.request.SysRoleQueryVO">
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.model.vo.system.request.SysRoleQueryVO">
 
         select
         <include refid="columns" />

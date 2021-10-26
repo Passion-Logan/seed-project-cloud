@@ -1,7 +1,7 @@
 package com.demo.cody.gateway.exception;
 
 import com.demo.cody.core.constant.SystemErrorType;
-import com.demo.cody.core.vo.Result;
+import com.demo.cody.core.utils.response.Result;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.netty.channel.ConnectTimeoutException;

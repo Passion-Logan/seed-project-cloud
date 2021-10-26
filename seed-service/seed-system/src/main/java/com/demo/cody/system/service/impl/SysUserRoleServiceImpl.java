@@ -1,7 +1,7 @@
 package com.demo.cody.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.cody.common.entity.SysUserRole;
+import com.demo.cody.model.entity.SysUserRole;
 import com.demo.cody.system.mapper.SysUserRoleMapper;
 import com.demo.cody.system.service.ISysUserRoleService;
 import org.slf4j.Logger;

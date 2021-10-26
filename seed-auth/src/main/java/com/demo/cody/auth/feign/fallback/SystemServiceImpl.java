@@ -1,9 +1,9 @@
 package com.demo.cody.auth.feign.fallback;
 
 import com.demo.cody.auth.feign.SystemService;
-import com.demo.cody.common.entity.SysLoginLog;
-import com.demo.cody.common.entity.SysUser;
-import com.demo.cody.core.vo.Result;
+import com.demo.cody.core.utils.response.Result;
+import com.demo.cody.model.entity.SysLoginLog;
+import com.demo.cody.model.entity.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

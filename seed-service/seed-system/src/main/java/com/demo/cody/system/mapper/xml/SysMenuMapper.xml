@@ -42,7 +42,7 @@
 		remark
 	</sql>
 
-    <select id="getList" resultType="com.demo.cody.core.vo.system.response.SysUserMenuResponseVO">
+    <select id="getList" resultType="com.demo.cody.model.vo.system.response.SysUserMenuResponseVO">
         select
         m.id,
         m.type,

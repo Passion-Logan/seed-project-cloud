@@ -2,11 +2,11 @@ package com.demo.cody.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.demo.cody.common.entity.SysDict;
-import com.demo.cody.core.vo.system.DictModel;
-import com.demo.cody.core.vo.system.DictQuery;
-import com.demo.cody.core.vo.system.DuplicateCheckVO;
-import com.demo.cody.core.vo.system.TreeSelectModel;
+import com.demo.cody.model.entity.SysDict;
+import com.demo.cody.model.vo.system.DictModel;
+import com.demo.cody.model.vo.system.DictQuery;
+import com.demo.cody.model.vo.system.DuplicateCheckVO;
+import com.demo.cody.model.vo.system.TreeSelectModel;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

@@ -3,7 +3,7 @@ package com.demo.cody.auth.service.security;
 import com.demo.cody.auth.constant.MessageConstant;
 import com.demo.cody.auth.entity.SecurityUser;
 import com.demo.cody.auth.feign.SystemService;
-import com.demo.cody.common.entity.SysUser;
+import com.demo.cody.model.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;

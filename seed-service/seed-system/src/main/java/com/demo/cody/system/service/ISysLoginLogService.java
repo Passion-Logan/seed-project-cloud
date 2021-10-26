@@ -2,9 +2,9 @@ package com.demo.cody.system.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.cody.common.entity.SysLoginLog;
-import com.demo.cody.core.vo.BasicPageVo;
-import com.demo.cody.core.vo.system.request.SysLoginLogQueryVO;
+import com.demo.cody.model.utils.BasicPageVo;
+import com.demo.cody.model.entity.SysLoginLog;
+import com.demo.cody.model.vo.system.request.SysLoginLogQueryVO;
 
 /**
  * 系统访问记录

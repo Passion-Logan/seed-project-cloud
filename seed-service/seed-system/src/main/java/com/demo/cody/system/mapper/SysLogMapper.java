@@ -1,7 +1,7 @@
 package com.demo.cody.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.demo.cody.common.entity.SysLog;
+import com.demo.cody.model.entity.SysLog;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -43,14 +43,5 @@ public interface SysLogMapper extends BaseMapper<SysLog> {
      */
     Long findTodayIp(@Param("dayStart") Date dayStart, @Param("dayEnd") Date dayEnd);
     //update-end--Author:zhangweijian  Date:20190428 for：传入开始时间，结束时间参数
-
-    /**
-     * 首页：根据时间统计访问数量/ip数量
-     *
-     * @param dayStart
-     * @param dayEnd
-     * @return
-     */
-    List<Map<String, Object>> findVisitCount(@Param("dayStart") Date dayStart, @Param("dayEnd") Date dayEnd, @Param("dbType") String dbType);
 
 }

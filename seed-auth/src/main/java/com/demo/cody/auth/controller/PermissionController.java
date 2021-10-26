@@ -1,7 +1,7 @@
 package com.demo.cody.auth.controller;
 
 import com.demo.cody.auth.service.IAuthService;
-import com.demo.cody.core.vo.Result;
+import com.demo.cody.core.utils.response.Result;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.web.bind.annotation.GetMapping;

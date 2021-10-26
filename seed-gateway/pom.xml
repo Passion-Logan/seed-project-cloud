@@ -15,31 +15,29 @@
     </parent>
 
     <dependencies>
+
         <dependency>
             <groupId>com.demo</groupId>
-            <artifactId>seed-common</artifactId>
+            <artifactId>seed-common-core</artifactId>
             <exclusions>
-                <exclusion>
-                    <groupId>com.demo</groupId>
-                    <artifactId>seed-db-mysql</artifactId>
-                </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-security</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-oauth2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-jwt</artifactId>
-                </exclusion>
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.cloud</groupId>-->
+<!--                    <artifactId>spring-cloud-starter-security</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.cloud</groupId>-->
+<!--                    <artifactId>spring-cloud-starter-oauth2</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.security</groupId>-->
+<!--                    <artifactId>spring-security-jwt</artifactId>-->
+<!--                </exclusion>-->
             </exclusions>
+            <version>${seed-project-cloud.version}</version>
         </dependency>
         <dependency>
             <groupId>com.demo</groupId>

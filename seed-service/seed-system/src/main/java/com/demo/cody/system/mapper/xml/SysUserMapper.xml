@@ -129,7 +129,7 @@
     </select>
 
     <!--根据对象查询列表 <include refid="where_condition"/> -->
-    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.core.vo.system.request.SysUserQueryVO">
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.demo.cody.model.vo.system.request.SysUserQueryVO">
         SELECT
         <include refid="columns"/>
         FROM sys_user

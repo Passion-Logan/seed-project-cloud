@@ -1,7 +1,7 @@
 package com.demo.cody.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.demo.cody.common.entity.SysDictItem;
+import com.demo.cody.model.entity.SysDictItem;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 

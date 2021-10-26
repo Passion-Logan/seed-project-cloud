@@ -3,9 +3,9 @@ package com.demo.cody.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.cody.common.entity.SysRole;
-import com.demo.cody.core.vo.system.request.SysRoleQueryVO;
-import com.demo.cody.core.vo.system.response.SysRoleResponseVO;
+import com.demo.cody.model.entity.SysRole;
+import com.demo.cody.model.vo.system.request.SysRoleQueryVO;
+import com.demo.cody.model.vo.system.response.SysRoleResponseVO;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.demo.cody.auth.entity;
 
-import com.demo.cody.common.entity.SysUser;
+import com.demo.cody.model.entity.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

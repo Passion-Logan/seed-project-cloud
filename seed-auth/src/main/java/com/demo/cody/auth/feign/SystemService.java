@@ -1,9 +1,9 @@
 package com.demo.cody.auth.feign;
 
 import com.demo.cody.auth.feign.factory.SystemFallbackFactory;
-import com.demo.cody.common.entity.SysLoginLog;
-import com.demo.cody.common.entity.SysUser;
-import com.demo.cody.core.vo.Result;
+import com.demo.cody.core.utils.response.Result;
+import com.demo.cody.model.entity.SysLoginLog;
+import com.demo.cody.model.entity.SysUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
