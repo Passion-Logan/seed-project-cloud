@@ -14,7 +14,6 @@ import com.demo.cody.system.mapper.SysDictItemMapper;
 import com.demo.cody.system.mapper.SysDictMapper;
 import com.demo.cody.system.service.ISysDictService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +41,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     /**
      * 通过查询指定code 获取字典
      *
-     * @param code
-     * @return
+     * @param code code
+     * @return List<DictModel>
      */
     @Override
     @Cacheable(value = CacheConstant.SYS_DICT_CACHE, key = "#code")
@@ -77,9 +76,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     /**
      * 通过查询指定code 获取字典值text
      *
-     * @param code
-     * @param key
-     * @return
+     * @param code code
+     * @param key  key
+     * @return String
      */
 
     @Override
@@ -93,10 +92,10 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
      * 通过查询指定table的 text code 获取字典
      * dictTableCache采用redis缓存有效期10分钟
      *
-     * @param table
-     * @param text
-     * @param code
-     * @return
+     * @param table table
+     * @param text  text
+     * @param code  code
+     * @return List<DictModel>
      */
     @Override
     //@Cacheable(value = CacheConstant.SYS_DICT_TABLE_CACHE)
@@ -115,11 +114,11 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
      * 通过查询指定table的 text code 获取字典值text
      * dictTableCache采用redis缓存有效期10分钟
      *
-     * @param table
-     * @param text
-     * @param code
-     * @param key
-     * @return
+     * @param table table
+     * @param text  text
+     * @param code  code
+     * @param key   key
+     * @return String
      */
     @Override
     @Cacheable(value = CacheConstant.SYS_DICT_TABLE_CACHE)
@@ -132,11 +131,11 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
      * 通过查询指定table的 text code 获取字典，包含text和value
      * dictTableCache采用redis缓存有效期10分钟
      *
-     * @param table
-     * @param text
-     * @param code
-     * @param keyArray
-     * @return
+     * @param table    table
+     * @param text     text
+     * @param code     code
+     * @param keyArray keyArray
+     * @return List<String>
      */
     @Override
     @Cacheable(value = CacheConstant.SYS_DICT_TABLE_CACHE)

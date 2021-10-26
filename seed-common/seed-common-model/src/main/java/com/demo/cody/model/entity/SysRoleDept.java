@@ -1,5 +1,6 @@
 package com.demo.cody.model.entity;
 
+import com.demo.cody.core.aspect.annotation.Stringify;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -20,9 +21,11 @@ public class SysRoleDept implements Serializable {
     /**
      * 岗位ID
      */
-    private String deptId;
+    @Stringify
+    private Long deptId;
     /**
      * 角色ID
      */
-    private String roleId;
+    @Stringify
+    private Long roleId;
 }

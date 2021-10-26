@@ -11,6 +11,6 @@ import java.util.List;
 public interface SysDictItemMapper extends BaseMapper<SysDictItem> {
 
     @Select("SELECT * FROM sys_dict_item WHERE DICT_ID = #{mainId} order by sort_order asc, item_value asc")
-    public List<SysDictItem> selectItemsByMainId(String mainId);
+    List<SysDictItem> selectItemsByMainId(String mainId);
 
 }

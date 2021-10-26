@@ -1,36 +1,28 @@
 package com.demo.cody.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.demo.cody.core.aspect.annotation.Dict;
+import com.demo.cody.model.entity.basic.SysBaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
- * @Description: TODO
- * @date: 2020年06月17日 14:27
+ * @author wql
+ * @desc SysDictItem
+ * @date 2021/10/26
+ * @lastUpdateUser wql
+ * @lastUpdateDesc
+ * @lastUpdateTime 2021/10/26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysDictItem implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * id
-     */
-    @TableId(type = IdType.ID_WORKER_STR)
-    private String id;
+public class SysDictItem extends SysBaseModel<SysDictItem> {
 
     /**
      * 字典id
      */
-    private String dictId;
+    private Long dictId;
 
     /**
      * 字典项文本
@@ -58,14 +50,5 @@ public class SysDictItem implements Serializable {
      */
     @Dict(dicCode = "dict_item_status")
     private Integer status;
-
-    private String createBy;
-
-    private Date createTime;
-
-    private String updateBy;
-
-    private Date updateTime;
-
 
 }

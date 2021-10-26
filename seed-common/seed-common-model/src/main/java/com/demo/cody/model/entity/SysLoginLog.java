@@ -2,6 +2,7 @@ package com.demo.cody.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.demo.cody.core.aspect.annotation.Stringify;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -32,8 +33,9 @@ public class SysLoginLog implements Serializable {
     /**
      * 访问ID
      */
-    @TableId(type = IdType.ID_WORKER_STR)
-    private String id;
+    @Stringify
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 登录账号

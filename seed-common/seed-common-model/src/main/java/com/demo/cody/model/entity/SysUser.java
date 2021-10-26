@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//public class SysUser extends SysLogicDeleteModel<SysUser> implements Serializable {
 public class SysUser implements Serializable {
 
     private static final long serialVersionUID = 1L;

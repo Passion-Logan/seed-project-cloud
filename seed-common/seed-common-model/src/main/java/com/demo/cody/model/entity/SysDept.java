@@ -2,11 +2,12 @@ package com.demo.cody.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.demo.cody.core.aspect.annotation.Stringify;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @Description: 部门表
@@ -22,12 +23,14 @@ public class SysDept {
     /**
      * 部门id
      */
+    @Stringify
     @TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    private Long id;
     /**
      * 父部门id
      */
-    private String pid;
+    @Stringify
+    private Long pid;
     /**
      * 部门名称
      */
@@ -47,7 +50,7 @@ public class SysDept {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
     /**
      * 备注
      */

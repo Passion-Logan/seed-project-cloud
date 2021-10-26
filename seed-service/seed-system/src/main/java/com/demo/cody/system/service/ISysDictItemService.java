@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ISysDictItemService extends IService<SysDictItem> {
 
-    public List<SysDictItem> selectItemsByMainId(String mainId);
+    List<SysDictItem> selectItemsByMainId(String mainId);
 
 }
