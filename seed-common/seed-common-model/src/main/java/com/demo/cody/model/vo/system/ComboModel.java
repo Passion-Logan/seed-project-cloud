@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * @Description: TODO
+ * @Description: ComboModel
  * @date: 2020年06月17日 13:43
  */
 @Data
@@ -35,16 +35,5 @@ public class ComboModel implements Serializable {
      * 文档管理 表单table 角色编码
      */
     private String roleCode;
-
-    public ComboModel() {
-
-    }
-
-    public ComboModel(String id, String title, boolean checked, String username) {
-        this.id = id;
-        this.title = title;
-        this.checked = false;
-        this.username = username;
-    }
 
 }

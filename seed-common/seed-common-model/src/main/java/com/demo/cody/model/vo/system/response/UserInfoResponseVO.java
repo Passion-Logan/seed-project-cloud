@@ -78,7 +78,7 @@ public class UserInfoResponseVO implements Serializable {
     private String avatar;
 
     /**
-     * 角色信息 todo:改为数组
+     * 角色信息
      */
     @ApiModelProperty("角色信息")
     private String[] roles;

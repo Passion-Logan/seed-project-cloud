@@ -55,9 +55,6 @@ public class SecurityUser implements UserDetails {
         this.setUsername(sysUser.getUserName());
         this.setPassword(sysUser.getPassword());
         this.setEnabled(sysUser.getEnabled());
-        // TODO 模拟权限
-        //authorities.addAll(authorityList);
-//        authorities.add(new SimpleGrantedAuthority("admin"));
     }
 
     @Override

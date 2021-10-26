@@ -3,7 +3,7 @@ package com.demo.cody.model.vo.system;
 import lombok.Data;
 
 /**
- * @Description: TODO
+ * @Description: SysCategoryModel
  * @date: 2020年06月17日 13:42
  */
 @Data

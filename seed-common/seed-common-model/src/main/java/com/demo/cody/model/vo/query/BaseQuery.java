@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @Description: TODO
+ * @Description: BaseQuery
  * @date: 2020年06月17日 15:10
  */
 @Data

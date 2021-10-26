@@ -10,7 +10,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @Description: TODO
+ * @Description: SpringContextUtils
  * @date: 2020年06月17日 14:18
  */
 @Component

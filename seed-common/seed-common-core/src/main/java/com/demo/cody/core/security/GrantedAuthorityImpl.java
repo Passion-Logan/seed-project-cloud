@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 /**
  * @author Administrator
- * @Description: TODO
+ * @Description: GrantedAuthorityImpl
  * @date: 2020年06月16日 18:49
  */
 public class GrantedAuthorityImpl implements GrantedAuthority {

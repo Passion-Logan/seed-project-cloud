@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Administrator
- * @Description: TODO
+ * @Description: SysBaseImpl
  * @date: 2020年06月17日 14:13
  */
 @Slf4j

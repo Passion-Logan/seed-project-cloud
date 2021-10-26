@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * @Description: TODO
+ * @Description: DictModel
  * @date: 2020年06月17日 13:38
  */
 @Data
@@ -22,11 +22,6 @@ public class DictModel implements Serializable {
     public DictModel() {
     }
 
-    public DictModel(String value, String text) {
-        this.value = value;
-        this.text = text;
-    }
-
     /**
      * 字典value
      */
@@ -35,14 +30,5 @@ public class DictModel implements Serializable {
      * 字典文本
      */
     private String text;
-
-    /**
-     * 特殊用途： JgEditableTable
-     *
-     * @return
-     */
-    public String getTitle() {
-        return this.text;
-    }
 
 }

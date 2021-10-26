@@ -59,7 +59,6 @@ public class SysMenuController {
     @ApiOperation(value = "菜单树形展示")
     @GetMapping("list")
     public Result<List<SysUserMenuResponseVO>> selectPageList() {
-        // todo:添加缓存
         List<SysUserMenuResponseVO> data = new ArrayList<>();
         List<SysUserMenuResponseVO> voList = menuService.getList();
 
