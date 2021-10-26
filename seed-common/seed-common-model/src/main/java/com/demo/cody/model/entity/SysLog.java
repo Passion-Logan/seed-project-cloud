@@ -1,7 +1,7 @@
 package com.demo.cody.model.entity;
 
-import com.demo.cody.core.annotation.Dict;
-import com.demo.cody.common.entity.basic.SysBaseModel;
+import com.demo.cody.core.aspect.annotation.Dict;
+import com.demo.cody.model.entity.basic.SysBaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

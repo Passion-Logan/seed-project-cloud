@@ -1,6 +1,6 @@
 package com.demo.cody.model.entity;
 
-import com.demo.cody.core.annotation.Stringify;
+import com.demo.cody.core.aspect.annotation.Stringify;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

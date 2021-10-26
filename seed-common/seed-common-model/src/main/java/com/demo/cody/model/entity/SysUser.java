@@ -1,7 +1,7 @@
 package com.demo.cody.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.demo.cody.core.annotation.Stringify;
+import com.demo.cody.core.aspect.annotation.Stringify;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.Accessors;
