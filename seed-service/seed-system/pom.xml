@@ -27,6 +27,12 @@
 
         <dependency>
             <groupId>com.demo</groupId>
+            <artifactId>seed-common-resource</artifactId>
+            <version>${seed-project-cloud.version</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.demo</groupId>
             <artifactId>seed-common-model</artifactId>
             <version>${seed-project-cloud.version}</version>
         </dependency>
